@@ -26,7 +26,7 @@ import {
 } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import { Progress } from "@/components/ui/progress";
-import { ArrowRight, ArrowUpRight, ChevronRight, DollarSign, Filter, Search, Sliders } from "lucide-react";
+import { ArrowRight, ArrowUpRight, ChevronRight, DollarSign, Filter, Plus, Search, Sliders } from "lucide-react";
 import { offersWithCompanyData } from "@/data/offers";
 
 const InvestorPortal = () => {
@@ -92,19 +92,38 @@ const InvestorPortal = () => {
             </p>
           </div>
           
+          {/* Updated navigation buttons */}
           <div className="flex items-center gap-2">
-            <Link to="/investor/portfolio">
-              <Button variant="outline">
-                <DollarSign className="mr-2 h-4 w-4" />
-                Meu Portfólio
+            <div className="bg-slate-50 dark:bg-slate-800 rounded-full flex overflow-hidden p-1 shadow-sm border border-slate-200 dark:border-slate-700">
+              <Button 
+                variant="ghost" 
+                className="rounded-full flex items-center gap-2 px-4 hover:bg-white dark:hover:bg-slate-700"
+                asChild
+              >
+                <Link to="/investor/portfolio">
+                  <DollarSign className="h-4 w-4" />
+                  <span>Meu Portfólio</span>
+                </Link>
               </Button>
-            </Link>
-            <Link to="/marketplace">
-              <Button className="bg-gradient-to-r from-brand-blue-500 to-brand-green-500 text-white">
-                Marketplace
-                <ArrowRight className="ml-2 h-4 w-4" />
+              
+              <Button
+                variant="ghost"
+                className="rounded-full bg-white dark:bg-slate-700 shadow-sm flex items-center gap-2 px-4"
+              >
+                <Plus className="h-4 w-4" />
+                <span>Novas Oportunidades</span>
               </Button>
-            </Link>
+            </div>
+            
+            <Button 
+              className="rounded-full bg-gradient-to-r from-blue-500 to-cyan-400 text-white shadow-md" 
+              asChild
+            >
+              <Link to="/marketplace" className="flex items-center gap-2">
+                <span>Marketplace</span>
+                <ArrowRight className="h-4 w-4" />
+              </Link>
+            </Button>
           </div>
         </div>
         
