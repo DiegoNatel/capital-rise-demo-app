@@ -585,8 +585,9 @@ const Portfolio = () => {
                   </TabsContent>
                 ))}
               </div>
-            </CardContent>
-          </Card>
+            </Tabs>
+          </CardContent>
+        </Card>
       </div>
     </MainLayout>
   );
