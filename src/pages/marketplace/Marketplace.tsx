@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import MainLayout from "@/components/layout/MainLayout";
@@ -71,21 +70,18 @@ const Marketplace = () => {
   const [quantity, setQuantity] = useState("");
   const [price, setPrice] = useState("");
   
-  // Filter and sort tokens
   const filteredTokens = tokens
     .filter((token) => {
-      // Search filter
       if (filter.search) {
         const searchLower = filter.search.toLowerCase();
         return (
           token.symbol.toLowerCase().includes(searchLower) ||
           token.name.toLowerCase().includes(searchLower) ||
-          token.companyName.toLowerCase().includes(searchLower) ||
+          token.companyId.toLowerCase().includes(searchLower) ||
           token.category.toLowerCase().includes(searchLower)
         );
       }
       
-      // Industry filter
       if (filter.industry !== "all" && token.category !== filter.industry) {
         return false;
       }
@@ -93,7 +89,6 @@ const Marketplace = () => {
       return true;
     })
     .sort((a, b) => {
-      // Sort by selected field
       const orderDir = filter.orderDir === "asc" ? 1 : -1;
       
       if (filter.orderBy === "marketCap") {
@@ -107,7 +102,6 @@ const Marketplace = () => {
       }
     });
   
-  // Get unique industries/categories for filter
   const categories = Array.from(new Set(tokens.map((token) => token.category)));
   
   const handleOpenOrderDialog = (token: typeof tokens[0], type: "buy" | "sell") => {
@@ -173,7 +167,6 @@ const Marketplace = () => {
           </div>
         </div>
         
-        {/* Market Overview */}
         <Card className="mb-8">
           <CardHeader>
             <CardTitle>Visão Geral do Mercado</CardTitle>
@@ -283,7 +276,6 @@ const Marketplace = () => {
           </CardContent>
         </Card>
         
-        {/* Token List */}
         <Card>
           <CardHeader>
             <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
@@ -387,7 +379,9 @@ const Marketplace = () => {
                                 <span className="font-bold text-xs">{token.symbol}</span>
                               </div>
                               <div>
-                                <div className="font-medium">{token.name}</div>
+                                <Link to={`/company/${token.companyId}`} className="font-medium hover:underline">
+                                  {token.name}
+                                </Link>
                                 <div className="text-xs text-slate-500 dark:text-slate-400">
                                   {token.symbol} • {token.category}
                                 </div>
@@ -473,7 +467,9 @@ const Marketplace = () => {
                                   <span className="font-bold text-xs">{token.symbol}</span>
                                 </div>
                                 <div>
-                                  <div className="font-medium">{token.name}</div>
+                                  <Link to={`/company/${token.companyId}`} className="font-medium hover:underline">
+                                    {token.name}
+                                  </Link>
                                   <div className="text-xs text-slate-500 dark:text-slate-400">
                                     {token.symbol} • {token.category}
                                   </div>
@@ -535,7 +531,6 @@ const Marketplace = () => {
           </CardContent>
         </Card>
         
-        {/* Market Depth */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-8">
           <Card>
             <CardHeader>
@@ -717,7 +712,6 @@ const Marketplace = () => {
         </div>
       </div>
       
-      {/* Order Dialog */}
       <Dialog open={!!selectedToken} onOpenChange={(open) => !open && setSelectedToken(null)}>
         <DialogContent className="sm:max-w-[425px]">
           <DialogHeader>

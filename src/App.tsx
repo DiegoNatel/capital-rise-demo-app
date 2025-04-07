@@ -17,6 +17,7 @@ import Register from "@/pages/auth/Register";
 import CreateOffer from "@/pages/company/CreateOffer";
 import OfferDetails from "@/pages/investor/OfferDetails";
 import Portfolio from "@/pages/investor/Portfolio";
+import CompanyProfile from "@/pages/investor/CompanyProfile";
 import NotFound from "@/pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -39,6 +40,7 @@ const App = () => (
             <Route path="/investor/portfolio" element={<Portfolio />} />
             <Route path="/marketplace" element={<Marketplace />} />
             <Route path="/offer/:id" element={<OfferDetails />} />
+            <Route path="/company/:id" element={<CompanyProfile />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
