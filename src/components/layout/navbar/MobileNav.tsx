@@ -1,8 +1,14 @@
 
 import { Link } from "react-router-dom";
-import { LogOut } from "lucide-react";
+import { LogOut, ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/contexts/AuthContext";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 
 interface MobileNavProps {
   isOpen: boolean;
@@ -37,21 +43,51 @@ const MobileNav = ({ isOpen, isAuthenticated, closeMenu, handleLogout }: MobileN
               Marketplace
             </Link>
             
-            <Link
-              to="/company"
-              className="block pl-3 pr-4 py-2 text-base font-medium text-slate-900 dark:text-slate-100 hover:bg-slate-100 dark:hover:bg-slate-800"
-              onClick={closeMenu}
-            >
-              Company Portal
-            </Link>
-            
-            <Link
-              to="/investor"
-              className="block pl-3 pr-4 py-2 text-base font-medium text-slate-900 dark:text-slate-100 hover:bg-slate-100 dark:hover:bg-slate-800"
-              onClick={closeMenu}
-            >
-              Investor Portal
-            </Link>
+            <Accordion type="single" collapsible className="w-full">
+              <AccordionItem value="company">
+                <AccordionTrigger className="pl-3 pr-4 py-2 text-base font-medium text-slate-900 dark:text-slate-100 hover:bg-slate-100 dark:hover:bg-slate-800">
+                  Para Empresas
+                </AccordionTrigger>
+                <AccordionContent>
+                  <Link
+                    to="/company"
+                    className="block pl-6 pr-4 py-2 text-base font-medium text-slate-900 dark:text-slate-100 hover:bg-slate-100 dark:hover:bg-slate-800"
+                    onClick={closeMenu}
+                  >
+                    Portal da Empresa
+                  </Link>
+                  <Link
+                    to="/company/create-offer"
+                    className="block pl-6 pr-4 py-2 text-base font-medium text-slate-900 dark:text-slate-100 hover:bg-slate-100 dark:hover:bg-slate-800"
+                    onClick={closeMenu}
+                  >
+                    Criar Oferta
+                  </Link>
+                </AccordionContent>
+              </AccordionItem>
+              
+              <AccordionItem value="investor">
+                <AccordionTrigger className="pl-3 pr-4 py-2 text-base font-medium text-slate-900 dark:text-slate-100 hover:bg-slate-100 dark:hover:bg-slate-800">
+                  Para Investidores
+                </AccordionTrigger>
+                <AccordionContent>
+                  <Link
+                    to="/investor"
+                    className="block pl-6 pr-4 py-2 text-base font-medium text-slate-900 dark:text-slate-100 hover:bg-slate-100 dark:hover:bg-slate-800"
+                    onClick={closeMenu}
+                  >
+                    Portal do Investidor
+                  </Link>
+                  <Link
+                    to="/investor/portfolio"
+                    className="block pl-6 pr-4 py-2 text-base font-medium text-slate-900 dark:text-slate-100 hover:bg-slate-100 dark:hover:bg-slate-800"
+                    onClick={closeMenu}
+                  >
+                    Meu Portfólio
+                  </Link>
+                </AccordionContent>
+              </AccordionItem>
+            </Accordion>
           </>
         )}
         

@@ -7,9 +7,12 @@ interface BrandProps {
 }
 
 const Brand = ({ isAuthenticated, closeMenu }: BrandProps) => {
+  // Define the target route - if authenticated, send to investor portal, otherwise to homepage
+  const targetRoute = isAuthenticated ? "/investor" : "/";
+  
   return (
     <Link 
-      to={isAuthenticated ? "/investor" : "/"} 
+      to={targetRoute}
       className="flex-shrink-0 flex items-center" 
       onClick={closeMenu}
     >

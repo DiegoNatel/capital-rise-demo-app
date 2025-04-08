@@ -40,15 +40,15 @@ const DesktopNav = ({ isAuthenticated, closeMenu }: DesktopNavProps) => {
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <button className="inline-flex items-center px-1 pt-1 text-sm font-medium text-slate-900 dark:text-slate-100 hover:text-brand-blue-500 dark:hover:text-brand-blue-400">
-                  For Companies <ChevronDown size={16} className="ml-1" />
+                  Para Empresas <ChevronDown size={16} className="ml-1" />
                 </button>
               </DropdownMenuTrigger>
               <DropdownMenuContent className="w-56">
                 <DropdownMenuItem asChild>
-                  <Link to="/company" className="w-full">Company Portal</Link>
+                  <Link to="/company" className="w-full" onClick={closeMenu}>Portal da Empresa</Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem asChild>
-                  <Link to="/company/create-offer" className="w-full">Create Offering</Link>
+                  <Link to="/company/create-offer" className="w-full" onClick={closeMenu}>Criar Oferta</Link>
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
@@ -58,15 +58,15 @@ const DesktopNav = ({ isAuthenticated, closeMenu }: DesktopNavProps) => {
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <button className="inline-flex items-center px-1 pt-1 text-sm font-medium text-slate-900 dark:text-slate-100 hover:text-brand-blue-500 dark:hover:text-brand-blue-400">
-                  For Investors <ChevronDown size={16} className="ml-1" />
+                  Para Investidores <ChevronDown size={16} className="ml-1" />
                 </button>
               </DropdownMenuTrigger>
               <DropdownMenuContent className="w-56">
                 <DropdownMenuItem asChild>
-                  <Link to="/investor" className="w-full">Investor Portal</Link>
+                  <Link to="/investor" className="w-full" onClick={closeMenu}>Portal do Investidor</Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem asChild>
-                  <Link to="/investor/portfolio" className="w-full">My Portfolio</Link>
+                  <Link to="/investor/portfolio" className="w-full" onClick={closeMenu}>Meu Portfólio</Link>
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
