@@ -1,6 +1,4 @@
-
 import { useState } from "react";
-import { Link } from "react-router-dom";
 import {
   LineChart,
   Line,
@@ -15,13 +13,11 @@ import {
 } from "recharts";
 import {
   ArrowDownRight,
-  ArrowRight,
   ArrowUpRight,
   BarChart3,
   DollarSign,
   Download,
   PieChart as PieChartIcon,
-  Plus,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -74,40 +70,6 @@ const Portfolio = () => {
             <p className="text-slate-500 dark:text-slate-400 mt-1">
               Acompanhe seus investimentos e desempenho
             </p>
-          </div>
-          
-          {/* Updated navigation buttons */}
-          <div className="flex items-center gap-2">
-            <div className="bg-slate-50 dark:bg-slate-800 rounded-full flex overflow-hidden p-1 shadow-sm border border-slate-200 dark:border-slate-700">
-              <Button 
-                variant="ghost" 
-                className="rounded-full bg-white dark:bg-slate-700 shadow-sm flex items-center gap-2 px-4"
-              >
-                <DollarSign className="h-4 w-4" />
-                <span>Meu Portfólio</span>
-              </Button>
-              
-              <Button
-                variant="ghost"
-                className="rounded-full flex items-center gap-2 px-4 hover:bg-white dark:hover:bg-slate-700"
-                asChild
-              >
-                <Link to="/investor">
-                  <Plus className="h-4 w-4" />
-                  <span>Novas Oportunidades</span>
-                </Link>
-              </Button>
-            </div>
-            
-            <Button 
-              className="rounded-full bg-gradient-to-r from-blue-500 to-cyan-400 text-white shadow-md" 
-              asChild
-            >
-              <Link to="/marketplace" className="flex items-center gap-2">
-                <span>Marketplace</span>
-                <ArrowRight className="h-4 w-4" />
-              </Link>
-            </Button>
           </div>
         </div>
         
