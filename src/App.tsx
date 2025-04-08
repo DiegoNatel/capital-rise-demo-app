@@ -34,12 +34,12 @@ const ProtectedRoute = ({ children }: { children: JSX.Element }) => {
   return children;
 };
 
-// Landing route component that redirects authenticated users to marketplace
+// Landing route component that redirects authenticated users to investor portal
 const LandingRoute = ({ children }: { children: JSX.Element }) => {
   const { isAuthenticated } = useAuth();
   
   if (isAuthenticated) {
-    return <Navigate to="/marketplace" replace />;
+    return <Navigate to="/investor" replace />;
   }
   
   return children;

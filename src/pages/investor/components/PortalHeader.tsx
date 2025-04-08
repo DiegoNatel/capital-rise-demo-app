@@ -1,5 +1,7 @@
 
 import { Link } from "react-router-dom";
+import { Button } from "@/components/ui/button";
+import { Search } from "lucide-react";
 
 const PortalHeader = () => {
   return (
@@ -9,6 +11,14 @@ const PortalHeader = () => {
         <p className="text-slate-500 dark:text-slate-400 mt-1">
           Explore ofertas de empresas inovadoras em diversos setores
         </p>
+      </div>
+      
+      {/* Search button to help find companies */}
+      <div>
+        <Button variant="outline" className="gap-2">
+          <Search className="h-4 w-4" />
+          <span>Pesquisar empresas</span>
+        </Button>
       </div>
     </div>
   );

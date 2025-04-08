@@ -9,7 +9,7 @@ interface BrandProps {
 const Brand = ({ isAuthenticated, closeMenu }: BrandProps) => {
   return (
     <Link 
-      to={isAuthenticated ? "/marketplace" : "/"} 
+      to={isAuthenticated ? "/investor" : "/"} 
       className="flex-shrink-0 flex items-center" 
       onClick={closeMenu}
     >
