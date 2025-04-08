@@ -6,6 +6,8 @@ import PortalHeader from "./components/PortalHeader";
 import FilterBar, { FilterOptions } from "./components/FilterBar";
 import OffersTabs from "./components/OffersTabs";
 import { filterOffers } from "./utils/filterOffers";
+import { Card, CardContent } from "@/components/ui/card";
+import { Separator } from "@/components/ui/separator";
 
 const InvestorPortal = () => {
   const [filter, setFilter] = useState<FilterOptions>({
@@ -27,11 +29,20 @@ const InvestorPortal = () => {
     <MainLayout>
       <div className="container py-8">
         <PortalHeader />
-        <FilterBar 
-          filter={filter} 
-          setFilter={setFilter} 
-          industries={industries}
-        />
+        
+        <Card className="mb-8">
+          <CardContent className="pt-6">
+            <h2 className="text-xl font-semibold mb-4">Filtrar Oportunidades</h2>
+            <FilterBar 
+              filter={filter} 
+              setFilter={setFilter} 
+              industries={industries}
+            />
+          </CardContent>
+        </Card>
+        
+        <Separator className="my-8" />
+        
         <OffersTabs filteredOffers={filteredOffers} />
       </div>
     </MainLayout>

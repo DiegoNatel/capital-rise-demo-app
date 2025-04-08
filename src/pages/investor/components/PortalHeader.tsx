@@ -1,7 +1,7 @@
 
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Search } from "lucide-react";
+import { Search, Building, Briefcase } from "lucide-react";
 
 const PortalHeader = () => {
   return (
@@ -13,12 +13,25 @@ const PortalHeader = () => {
         </p>
       </div>
       
-      {/* Search button to help find companies */}
-      <div>
+      <div className="flex flex-wrap gap-2">
+        <Link to="/marketplace">
+          <Button variant="outline" className="gap-2">
+            <Briefcase className="h-4 w-4" />
+            <span>Ver Marketplace</span>
+          </Button>
+        </Link>
+        
         <Button variant="outline" className="gap-2">
           <Search className="h-4 w-4" />
           <span>Pesquisar empresas</span>
         </Button>
+        
+        <Link to="/company">
+          <Button variant="outline" className="gap-2">
+            <Building className="h-4 w-4" />
+            <span>Portal da Empresa</span>
+          </Button>
+        </Link>
       </div>
     </div>
   );
