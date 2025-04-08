@@ -32,7 +32,7 @@ const Navbar = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16">
           <div className="flex">
-            <Link to="/" className="flex-shrink-0 flex items-center" onClick={closeMenu}>
+            <Link to={isAuthenticated ? "/marketplace" : "/"} className="flex-shrink-0 flex items-center" onClick={closeMenu}>
               <span className="bg-gradient-to-r from-brand-blue-500 to-brand-green-500 bg-clip-text text-transparent font-bold text-xl">
                 CapitalRise
               </span>
@@ -40,16 +40,26 @@ const Navbar = () => {
             
             {/* Desktop navigation */}
             <div className="hidden sm:ml-6 sm:flex sm:space-x-8">
-              <Link
-                to="/"
-                className="inline-flex items-center px-1 pt-1 text-sm font-medium text-slate-900 dark:text-slate-100 hover:text-brand-blue-500 dark:hover:text-brand-blue-400"
-                onClick={closeMenu}
-              >
-                Home
-              </Link>
+              {!isAuthenticated && (
+                <Link
+                  to="/"
+                  className="inline-flex items-center px-1 pt-1 text-sm font-medium text-slate-900 dark:text-slate-100 hover:text-brand-blue-500 dark:hover:text-brand-blue-400"
+                  onClick={closeMenu}
+                >
+                  Home
+                </Link>
+              )}
               
               {isAuthenticated && (
                 <>
+                  <Link
+                    to="/marketplace"
+                    className="inline-flex items-center px-1 pt-1 text-sm font-medium text-slate-900 dark:text-slate-100 hover:text-brand-blue-500 dark:hover:text-brand-blue-400"
+                    onClick={closeMenu}
+                  >
+                    Marketplace
+                  </Link>
+                  
                   <div className="relative inline-block text-left">
                     <DropdownMenu>
                       <DropdownMenuTrigger asChild>
@@ -85,14 +95,6 @@ const Navbar = () => {
                       </DropdownMenuContent>
                     </DropdownMenu>
                   </div>
-                  
-                  <Link
-                    to="/marketplace"
-                    className="inline-flex items-center px-1 pt-1 text-sm font-medium text-slate-900 dark:text-slate-100 hover:text-brand-blue-500 dark:hover:text-brand-blue-400"
-                    onClick={closeMenu}
-                  >
-                    Marketplace
-                  </Link>
                 </>
               )}
             </div>
@@ -167,16 +169,26 @@ const Navbar = () => {
       {/* Mobile menu, show/hide based on menu state */}
       <div className={`sm:hidden ${isOpen ? "block" : "hidden"}`}>
         <div className="pt-2 pb-3 space-y-1">
-          <Link
-            to="/"
-            className="block pl-3 pr-4 py-2 text-base font-medium text-slate-900 dark:text-slate-100 hover:bg-slate-100 dark:hover:bg-slate-800"
-            onClick={closeMenu}
-          >
-            Home
-          </Link>
+          {!isAuthenticated && (
+            <Link
+              to="/"
+              className="block pl-3 pr-4 py-2 text-base font-medium text-slate-900 dark:text-slate-100 hover:bg-slate-100 dark:hover:bg-slate-800"
+              onClick={closeMenu}
+            >
+              Home
+            </Link>
+          )}
           
           {isAuthenticated && (
             <>
+              <Link
+                to="/marketplace"
+                className="block pl-3 pr-4 py-2 text-base font-medium text-slate-900 dark:text-slate-100 hover:bg-slate-100 dark:hover:bg-slate-800"
+                onClick={closeMenu}
+              >
+                Marketplace
+              </Link>
+              
               <Link
                 to="/company"
                 className="block pl-3 pr-4 py-2 text-base font-medium text-slate-900 dark:text-slate-100 hover:bg-slate-100 dark:hover:bg-slate-800"
@@ -191,14 +203,6 @@ const Navbar = () => {
                 onClick={closeMenu}
               >
                 Investor Portal
-              </Link>
-              
-              <Link
-                to="/marketplace"
-                className="block pl-3 pr-4 py-2 text-base font-medium text-slate-900 dark:text-slate-100 hover:bg-slate-100 dark:hover:bg-slate-800"
-                onClick={closeMenu}
-              >
-                Marketplace
               </Link>
             </>
           )}

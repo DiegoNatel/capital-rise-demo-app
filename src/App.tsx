@@ -34,10 +34,25 @@ const ProtectedRoute = ({ children }: { children: JSX.Element }) => {
   return children;
 };
 
+// Landing route component that redirects authenticated users to marketplace
+const LandingRoute = ({ children }: { children: JSX.Element }) => {
+  const { isAuthenticated } = useAuth();
+  
+  if (isAuthenticated) {
+    return <Navigate to="/marketplace" replace />;
+  }
+  
+  return children;
+};
+
 const AppRoutes = () => {
   return (
     <Routes>
-      <Route path="/" element={<HomePage />} />
+      <Route path="/" element={
+        <LandingRoute>
+          <HomePage />
+        </LandingRoute>
+      } />
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
       

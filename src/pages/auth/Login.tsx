@@ -35,7 +35,7 @@ const Login = () => {
       id: Math.random().toString(36).substring(2, 9),
       name: email.split('@')[0] || "User",
       email: email,
-      type: "investor" as "investor" | "company"
+      type: email.includes("company") ? "company" : "investor" as "investor" | "company"
     };
     
     // Simulate API call for demo purposes
@@ -50,7 +50,7 @@ const Login = () => {
           title: "Login realizado com sucesso",
           description: "Bem-vindo de volta à plataforma CapitalRise.",
         });
-        navigate("/dashboard");
+        navigate("/marketplace");
       } else {
         toast({
           variant: "destructive",
