@@ -1,6 +1,6 @@
 
 import { Link } from "react-router-dom";
-import { LogOut, Sun, Moon } from "lucide-react";
+import { LogOut } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -8,7 +8,6 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { useTheme } from "@/components/theme-provider";
 import { useAuth } from "@/contexts/AuthContext";
 
 interface UserActionsProps {
@@ -16,20 +15,10 @@ interface UserActionsProps {
 }
 
 const UserActions = ({ handleLogout }: UserActionsProps) => {
-  const { theme, setTheme } = useTheme();
   const { user, isAuthenticated } = useAuth();
 
   return (
     <div className="hidden sm:ml-6 sm:flex sm:items-center space-x-4">
-      <Button
-        variant="ghost"
-        size="icon"
-        onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-        aria-label="Toggle theme"
-      >
-        {theme === "dark" ? <Sun size={20} /> : <Moon size={20} />}
-      </Button>
-      
       {isAuthenticated ? (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>

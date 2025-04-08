@@ -1,4 +1,6 @@
 
+import { Switch } from "@/components/ui/switch";
+
 interface PortfolioHeaderProps {
   title: string;
   subtitle: string;
