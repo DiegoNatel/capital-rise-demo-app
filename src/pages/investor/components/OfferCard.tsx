@@ -1,4 +1,3 @@
-
 import { Link } from "react-router-dom";
 import { ArrowUpRight, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -8,6 +7,7 @@ import {
   CardFooter,
 } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
+import { Company } from "@/data/companies";
 
 export interface OfferWithCompany {
   id: string;
@@ -38,30 +38,7 @@ export interface OfferWithCompany {
     content: string;
   }[];
   investors: number;
-  company?: {
-    id: string;
-    name: string;
-    industry: string;
-    logo?: string;
-    description: string;
-    foundedYear: number;
-    location: string;
-    website: string;
-    revenue: number;
-    employeeCount: number;
-    funding: number;
-    documents: {
-      name: string;
-      type: string;
-      url: string;
-    }[];
-    team: {
-      name: string;
-      role: string;
-      bio: string;
-      photo?: string;
-    }[];
-  } | null;
+  company: Company | null;
 }
 
 interface OfferCardProps {

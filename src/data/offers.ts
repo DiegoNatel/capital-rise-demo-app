@@ -1,5 +1,6 @@
 
-import { companies } from "./companies";
+import { Company, companies } from "./companies";
+import { OfferWithCompany } from "@/pages/investor/components/OfferCard";
 
 export interface Offer {
   id: string;
@@ -310,7 +311,7 @@ export const offers: Offer[] = [
 ];
 
 // Add company data to each offer
-export const offersWithCompanyData = offers.map(offer => {
+export const offersWithCompanyData: OfferWithCompany[] = offers.map(offer => {
   const company = companies.find(c => c.id === offer.companyId);
   return {
     ...offer,
