@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import MainLayout from "@/components/layout/MainLayout";
@@ -92,7 +91,6 @@ const InvestorPortal = () => {
             </p>
           </div>
           
-          {/* Updated navigation buttons */}
           <div className="flex items-center gap-2">
             <div className="bg-slate-50 dark:bg-slate-800 rounded-full flex overflow-hidden p-1 shadow-sm border border-slate-200 dark:border-slate-700">
               <Button 
@@ -114,20 +112,9 @@ const InvestorPortal = () => {
                 <span>Novas Oportunidades</span>
               </Button>
             </div>
-            
-            <Button 
-              className="rounded-full bg-gradient-to-r from-blue-500 to-cyan-400 text-white shadow-md" 
-              asChild
-            >
-              <Link to="/marketplace" className="flex items-center gap-2">
-                <span>Marketplace</span>
-                <ArrowRight className="h-4 w-4" />
-              </Link>
-            </Button>
           </div>
         </div>
         
-        {/* Filters and Search */}
         <div className="bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 p-4 mb-8">
           <div className="flex flex-col md:flex-row gap-4">
             <div className="flex-1">
@@ -254,7 +241,6 @@ const InvestorPortal = () => {
           </div>
         </div>
         
-        {/* Offers Tabs */}
         <Tabs defaultValue="all" className="space-y-8">
           <TabsList className="grid grid-cols-4 w-full max-w-md">
             <TabsTrigger value="all">Todas</TabsTrigger>
