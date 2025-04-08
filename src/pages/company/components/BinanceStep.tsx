@@ -1,6 +1,6 @@
 
 import React from "react";
-import { AlertTriangle, CheckCircle, CurrencyBitcoin, FileText, Shield } from "lucide-react";
+import { AlertTriangle, CheckCircle, CircleDollarSign, FileText, Shield } from "lucide-react";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -70,7 +70,7 @@ const BinanceStep = ({
         />
         <div className="ml-3">
           <Label htmlFor="listOnBinance" className="text-lg font-medium flex items-center">
-            <CurrencyBitcoin className="h-5 w-5 mr-2 text-amber-500" />
+            <CircleDollarSign className="h-5 w-5 mr-2 text-amber-500" />
             Desejo listar meu token na Binance
           </Label>
           <p className="text-sm text-slate-500 dark:text-slate-400">
