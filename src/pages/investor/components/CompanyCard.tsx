@@ -1,7 +1,6 @@
 
 import { Link } from "react-router-dom";
-import { Building, ChevronRight, Clock, CheckCircle2 } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { Building, CheckCircle2, Clock } from "lucide-react";
 import { Company } from "@/data/companies";
 
 export interface CompanyWithOffers extends Company {
@@ -18,18 +17,6 @@ const CompanyCard = ({ company }: { company: CompanyWithOffers }) => {
       className="block"
     >
       <div className="bg-white dark:bg-slate-800 rounded-lg shadow-sm hover:shadow-md transition-shadow p-6 border border-slate-200 dark:border-slate-700 h-full relative">
-        {company.hasActiveOffer && (
-          <div className="absolute top-4 right-4 bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-100 rounded-full px-3 py-1 text-xs font-medium flex items-center">
-            <CheckCircle2 className="h-3 w-3 mr-1" />
-            Rodada Ativa
-          </div>
-        )}
-        {!company.hasActiveOffer && company.hasUpcomingOffer && (
-          <div className="absolute top-4 right-4 bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-100 rounded-full px-3 py-1 text-xs font-medium flex items-center">
-            <Clock className="h-3 w-3 mr-1" />
-            Em Breve
-          </div>
-        )}
         <div className="flex items-center mb-4">
           <div className="h-12 w-12 bg-slate-100 dark:bg-slate-700 rounded-lg flex items-center justify-center mr-4">
             <Building className="h-6 w-6 text-slate-500" />
@@ -56,9 +43,23 @@ const CompanyCard = ({ company }: { company: CompanyWithOffers }) => {
         </div>
         
         <div className="flex justify-end">
-          <Button variant="ghost" size="sm" className="gap-1">
-            Ver Detalhes <ChevronRight className="h-4 w-4" />
-          </Button>
+          {company.hasActiveOffer && (
+            <div className="bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-100 rounded-full px-3 py-1 text-xs font-medium flex items-center">
+              <CheckCircle2 className="h-3 w-3 mr-1" />
+              Rodada Ativa
+            </div>
+          )}
+          {!company.hasActiveOffer && company.hasUpcomingOffer && (
+            <div className="bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-100 rounded-full px-3 py-1 text-xs font-medium flex items-center">
+              <Clock className="h-3 w-3 mr-1" />
+              Em Breve
+            </div>
+          )}
+          {!company.hasActiveOffer && !company.hasUpcomingOffer && (
+            <div className="bg-slate-100 text-slate-800 dark:bg-slate-700 dark:text-slate-300 rounded-full px-3 py-1 text-xs font-medium">
+              Não Disponível
+            </div>
+          )}
         </div>
       </div>
     </Link>
