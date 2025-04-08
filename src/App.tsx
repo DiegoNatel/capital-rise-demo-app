@@ -3,8 +3,9 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { ThemeProvider } from "@/components/theme-provider";
+import { AuthProvider, useAuth } from "@/contexts/AuthContext";
 
 // Pages
 import HomePage from "@/pages/home/HomePage";
@@ -22,29 +23,82 @@ import NotFound from "@/pages/NotFound";
 
 const queryClient = new QueryClient();
 
+// Protected route component
+const ProtectedRoute = ({ children }: { children: JSX.Element }) => {
+  const { isAuthenticated } = useAuth();
+  
+  if (!isAuthenticated) {
+    return <Navigate to="/login" replace />;
+  }
+  
+  return children;
+};
+
+const AppRoutes = () => {
+  return (
+    <Routes>
+      <Route path="/" element={<HomePage />} />
+      <Route path="/login" element={<Login />} />
+      <Route path="/register" element={<Register />} />
+      
+      {/* Protected routes */}
+      <Route path="/dashboard" element={
+        <ProtectedRoute>
+          <Dashboard />
+        </ProtectedRoute>
+      } />
+      <Route path="/company" element={
+        <ProtectedRoute>
+          <CompanyPortal />
+        </ProtectedRoute>
+      } />
+      <Route path="/company/create-offer" element={
+        <ProtectedRoute>
+          <CreateOffer />
+        </ProtectedRoute>
+      } />
+      <Route path="/investor" element={
+        <ProtectedRoute>
+          <InvestorPortal />
+        </ProtectedRoute>
+      } />
+      <Route path="/investor/portfolio" element={
+        <ProtectedRoute>
+          <Portfolio />
+        </ProtectedRoute>
+      } />
+      <Route path="/marketplace" element={
+        <ProtectedRoute>
+          <Marketplace />
+        </ProtectedRoute>
+      } />
+      <Route path="/offer/:id" element={
+        <ProtectedRoute>
+          <OfferDetails />
+        </ProtectedRoute>
+      } />
+      <Route path="/company/:id" element={
+        <ProtectedRoute>
+          <CompanyProfile />
+        </ProtectedRoute>
+      } />
+      <Route path="*" element={<NotFound />} />
+    </Routes>
+  );
+};
+
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <ThemeProvider defaultTheme="light" storageKey="capital-rise-theme">
-      <TooltipProvider>
-        <Toaster />
-        <Sonner />
-        <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<HomePage />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
-            <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="/company" element={<CompanyPortal />} />
-            <Route path="/company/create-offer" element={<CreateOffer />} />
-            <Route path="/investor" element={<InvestorPortal />} />
-            <Route path="/investor/portfolio" element={<Portfolio />} />
-            <Route path="/marketplace" element={<Marketplace />} />
-            <Route path="/offer/:id" element={<OfferDetails />} />
-            <Route path="/company/:id" element={<CompanyProfile />} />
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </BrowserRouter>
-      </TooltipProvider>
+      <AuthProvider>
+        <TooltipProvider>
+          <Toaster />
+          <Sonner />
+          <BrowserRouter>
+            <AppRoutes />
+          </BrowserRouter>
+        </TooltipProvider>
+      </AuthProvider>
     </ThemeProvider>
   </QueryClientProvider>
 );

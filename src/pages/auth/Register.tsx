@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Eye, EyeOff, CheckCircle } from "lucide-react";
@@ -17,24 +16,55 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { useToast } from "@/components/ui/use-toast";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import MainLayout from "@/components/layout/MainLayout";
+import { useAuth } from "@/contexts/AuthContext";
 
 const Register = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [accountType, setAccountType] = useState<"investor" | "company">("investor");
+  const [formData, setFormData] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    companyName: "",
+    contactName: "",
+  });
+  
   const { toast } = useToast();
   const navigate = useNavigate();
+  const { login } = useAuth();
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { id, value } = e.target;
+    setFormData(prev => ({ ...prev, [id]: value }));
+  };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
     
+    // Create a temporary user object based on form data
+    const userData = {
+      id: Math.random().toString(36).substring(2, 9),
+      name: accountType === "investor" 
+        ? `${formData.firstName} ${formData.lastName}`
+        : formData.companyName,
+      email: formData.email || `user${Math.floor(Math.random() * 1000)}@example.com`,
+      type: accountType
+    };
+    
     // Simulate API call for demo purposes
     setTimeout(() => {
       setIsLoading(false);
+      
+      // Auto-login the user
+      login(userData);
+      
       toast({
         title: "Registro realizado com sucesso",
         description: "Sua conta foi criada. Bem-vindo à plataforma CapitalRise!",
       });
+      
       navigate("/dashboard");
     }, 1500);
   };
@@ -54,7 +84,11 @@ const Register = () => {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <Tabs defaultValue="investor" className="mb-6">
+            <Tabs 
+              defaultValue="investor" 
+              className="mb-6" 
+              onValueChange={(value) => setAccountType(value as "investor" | "company")}
+            >
               <TabsList className="grid w-full grid-cols-2">
                 <TabsTrigger value="investor">Investidor</TabsTrigger>
                 <TabsTrigger value="company">Empresa</TabsTrigger>
@@ -66,17 +100,34 @@ const Register = () => {
                     <div className="grid grid-cols-2 gap-4">
                       <div className="grid gap-2">
                         <Label htmlFor="firstName">Nome</Label>
-                        <Input id="firstName" required />
+                        <Input 
+                          id="firstName" 
+                          value={formData.firstName}
+                          onChange={handleInputChange}
+                          required 
+                        />
                       </div>
                       <div className="grid gap-2">
                         <Label htmlFor="lastName">Sobrenome</Label>
-                        <Input id="lastName" required />
+                        <Input 
+                          id="lastName" 
+                          value={formData.lastName}
+                          onChange={handleInputChange}
+                          required 
+                        />
                       </div>
                     </div>
                     
                     <div className="grid gap-2">
                       <Label htmlFor="email">Email</Label>
-                      <Input id="email" type="email" placeholder="seunome@exemplo.com" required />
+                      <Input 
+                        id="email" 
+                        type="email" 
+                        placeholder="seunome@exemplo.com" 
+                        value={formData.email}
+                        onChange={handleInputChange}
+                        required 
+                      />
                     </div>
                     
                     <div className="grid gap-2">
@@ -152,7 +203,12 @@ const Register = () => {
                   <div className="grid gap-4">
                     <div className="grid gap-2">
                       <Label htmlFor="companyName">Nome da Empresa</Label>
-                      <Input id="companyName" required />
+                      <Input 
+                        id="companyName" 
+                        value={formData.companyName}
+                        onChange={handleInputChange}
+                        required 
+                      />
                     </div>
                     
                     <div className="grid gap-2">
@@ -162,7 +218,14 @@ const Register = () => {
                     
                     <div className="grid gap-2">
                       <Label htmlFor="companyEmail">Email Corporativo</Label>
-                      <Input id="companyEmail" type="email" placeholder="contato@suaempresa.com.br" required />
+                      <Input 
+                        id="companyEmail" 
+                        type="email" 
+                        placeholder="contato@suaempresa.com.br" 
+                        value={formData.email}
+                        onChange={(e) => setFormData(prev => ({ ...prev, email: e.target.value }))}
+                        required 
+                      />
                     </div>
                     
                     <div className="grid gap-2">
@@ -173,7 +236,12 @@ const Register = () => {
                     <div className="grid grid-cols-2 gap-4">
                       <div className="grid gap-2">
                         <Label htmlFor="contactName">Nome do Responsável</Label>
-                        <Input id="contactName" required />
+                        <Input 
+                          id="contactName" 
+                          value={formData.contactName}
+                          onChange={handleInputChange}
+                          required 
+                        />
                       </div>
                       <div className="grid gap-2">
                         <Label htmlFor="contactPosition">Cargo</Label>

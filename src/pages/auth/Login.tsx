@@ -15,6 +15,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/components/ui/use-toast";
 import MainLayout from "@/components/layout/MainLayout";
+import { useAuth } from "@/contexts/AuthContext";
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -23,16 +24,28 @@ const Login = () => {
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
   const navigate = useNavigate();
+  const { login } = useAuth();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
+    
+    // Create a temporary user object
+    const userData = {
+      id: Math.random().toString(36).substring(2, 9),
+      name: email.split('@')[0] || "User",
+      email: email,
+      type: "investor" as "investor" | "company"
+    };
     
     // Simulate API call for demo purposes
     setTimeout(() => {
       setIsLoading(false);
       
       if (email && password) {
+        // Login the user
+        login(userData);
+        
         toast({
           title: "Login realizado com sucesso",
           description: "Bem-vindo de volta à plataforma CapitalRise.",
