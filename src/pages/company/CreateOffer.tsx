@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import MainLayout from "@/components/layout/MainLayout";
@@ -28,6 +27,7 @@ import {
   TabsTrigger,
 } from "@/components/ui/tabs";
 import { 
+  AlertTriangle,
   ArrowLeft, 
   ArrowRight, 
   Calculator, 
@@ -36,17 +36,75 @@ import {
   DollarSign, 
   FileText, 
   PieChart, 
-  Upload 
+  Upload,
+  CurrencyBitcoin,
+  Shield
 } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
 
 // Steps in the offer creation process
 const steps = [
   { id: "basics", label: "Informações Básicas" },
   { id: "tokenization", label: "Tokenização" },
   { id: "documents", label: "Documentos" },
+  { id: "binance", label: "Binance" },
   { id: "terms", label: "Termos" },
   { id: "review", label: "Revisão" },
+];
+
+// Binance requirements checklist items
+const binanceRequirements = [
+  { 
+    id: "project_quality", 
+    label: "Qualidade do Projeto", 
+    description: "Avaliação técnica, equipe, e utilidade do token",
+    required: true
+  },
+  { 
+    id: "legal_compliance", 
+    label: "Conformidade Legal", 
+    description: "Verificação de que o token não é um security não registrado",
+    required: true
+  },
+  { 
+    id: "liquidity", 
+    label: "Liquidez e Volume de Negociação", 
+    description: "Demonstração de interesse e atividade no mercado",
+    required: true
+  },
+  { 
+    id: "security_audit", 
+    label: "Segurança", 
+    description: "Auditoria de smart contracts e avaliação de riscos",
+    required: true
+  },
+  { 
+    id: "white_paper", 
+    label: "White Paper", 
+    description: "Documento detalhado explicando o projeto, tecnologia e tokenomics",
+    required: true
+  },
+  { 
+    id: "community", 
+    label: "Comunidade Ativa", 
+    description: "Base de usuários engajada e presente em redes sociais",
+    required: false
+  },
+  { 
+    id: "market_maker", 
+    label: "Market Maker", 
+    description: "Parceria com um market maker para garantir liquidez",
+    required: false
+  },
 ];
 
 const CreateOffer = () => {
@@ -71,6 +129,16 @@ const CreateOffer = () => {
     termsRightToDividends: false,
     termsVotingRights: false,
     termsLockupPeriod: "6",
+    // New fields for Binance integration
+    listOnBinance: false,
+    binanceRequirements: binanceRequirements.reduce((acc, req) => {
+      acc[req.id] = false;
+      return acc;
+    }, {} as Record<string, boolean>),
+    binanceTokenType: "",
+    binanceComplianceContact: "",
+    binanceSmartContractAudit: null,
+    binanceWhitePaper: null,
   });
   
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -94,8 +162,37 @@ const CreateOffer = () => {
   const handleSelectChange = (name: string, value: string) => {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
+
+  const handleCheckboxChange = (name: string, checked: boolean) => {
+    setFormData((prev) => ({ ...prev, [name]: checked }));
+  };
+
+  const handleBinanceRequirementChange = (requirementId: string, checked: boolean) => {
+    setFormData((prev) => ({
+      ...prev,
+      binanceRequirements: {
+        ...prev.binanceRequirements,
+        [requirementId]: checked
+      }
+    }));
+  };
   
   const handleNextStep = () => {
+    // Validate Binance requirements if moving from the Binance step
+    if (currentStep === 3 && formData.listOnBinance) {
+      const requiredRequirements = binanceRequirements.filter(req => req.required);
+      const allRequiredMet = requiredRequirements.every(req => formData.binanceRequirements[req.id]);
+      
+      if (!allRequiredMet) {
+        toast({
+          title: "Requisitos da Binance não atendidos",
+          description: "Você precisa atender a todos os requisitos obrigatórios da Binance para continuar.",
+          variant: "destructive"
+        });
+        return;
+      }
+    }
+    
     setCurrentStep((prev) => Math.min(prev + 1, steps.length - 1));
   };
   
@@ -115,6 +212,15 @@ const CreateOffer = () => {
       navigate("/company");
     }, 2000);
   };
+
+  // Calculate the number of Binance requirements met
+  const binanceRequirementsMet = Object.values(formData.binanceRequirements).filter(Boolean).length;
+  const totalBinanceRequirements = binanceRequirements.length;
+  const requiredBinanceRequirementsMet = binanceRequirements
+    .filter(req => req.required)
+    .filter(req => formData.binanceRequirements[req.id])
+    .length;
+  const totalRequiredBinanceRequirements = binanceRequirements.filter(req => req.required).length;
   
   return (
     <MainLayout>
@@ -172,8 +278,9 @@ const CreateOffer = () => {
               {currentStep === 0 && "Informe os detalhes básicos da sua oferta"}
               {currentStep === 1 && "Configure as características dos tokens"}
               {currentStep === 2 && "Faça upload dos documentos necessários"}
-              {currentStep === 3 && "Defina os termos e condições para os investidores"}
-              {currentStep === 4 && "Revise todos os dados antes de criar a oferta"}
+              {currentStep === 3 && "Configure a integração com a Binance"}
+              {currentStep === 4 && "Defina os termos e condições para os investidores"}
+              {currentStep === 5 && "Revise todos os dados antes de criar a oferta"}
             </CardDescription>
           </CardHeader>
           
@@ -526,326 +633,186 @@ const CreateOffer = () => {
                   </div>
                 </div>
               )}
-              
-              {/* Step 4: Terms */}
+
+              {/* Step 4: Binance Integration */}
               {currentStep === 3 && (
                 <div className="space-y-6">
-                  <div className="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg p-4">
-                    <h3 className="font-medium text-lg mb-4">Direitos dos Tokenholders</h3>
-                    
-                    <div className="space-y-4">
-                      <div className="flex items-start">
-                        <input 
-                          type="checkbox" 
-                          id="rightToDividends" 
-                          className="h-4 w-4 mt-1 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500" 
-                          checked={formData.termsRightToDividends}
-                          onChange={(e) => setFormData(prev => ({ ...prev, termsRightToDividends: e.target.checked }))}
-                        />
-                        <div className="ml-3">
-                          <Label htmlFor="rightToDividends" className="font-medium">Direito a Dividendos</Label>
-                          <p className="text-sm text-slate-500 dark:text-slate-400">
-                            Os tokenholders terão direito a receber dividendos proporcionais à sua participação.
-                          </p>
-                        </div>
-                      </div>
-                      
-                      <div className="flex items-start">
-                        <input 
-                          type="checkbox" 
-                          id="votingRights" 
-                          className="h-4 w-4 mt-1 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500" 
-                          checked={formData.termsVotingRights}
-                          onChange={(e) => setFormData(prev => ({ ...prev, termsVotingRights: e.target.checked }))}
-                        />
-                        <div className="ml-3">
-                          <Label htmlFor="votingRights" className="font-medium">Direito a Voto</Label>
-                          <p className="text-sm text-slate-500 dark:text-slate-400">
-                            Os tokenholders terão direito a voto em decisões importantes da empresa, proporcionalmente à sua participação.
-                          </p>
-                        </div>
-                      </div>
-                    </div>
+                  <div className="bg-amber-50 dark:bg-amber-900/20 p-4 rounded-lg border border-amber-100 dark:border-amber-800 mb-6">
+                    <h4 className="font-medium text-amber-800 dark:text-amber-300 mb-2 flex items-center">
+                      <AlertTriangle className="h-5 w-5 mr-2" />
+                      Integração com Binance
+                    </h4>
+                    <p className="text-sm text-amber-700 dark:text-amber-400">
+                      Listar seu token na Binance requer atender a requisitos específicos e passar por um processo de aprovação.
+                      A Binance tem critérios rigorosos para listar novos tokens.
+                    </p>
                   </div>
-                  
-                  <div className="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg p-4">
-                    <h3 className="font-medium text-lg mb-4">Restrições e Condições</h3>
-                    
-                    <div>
-                      <Label htmlFor="lockupPeriod">Período de Lockup</Label>
-                      <Select 
-                        name="lockupPeriod" 
-                        value={formData.termsLockupPeriod} 
-                        onValueChange={(value) => handleSelectChange("termsLockupPeriod", value)}
-                      >
-                        <SelectTrigger id="lockupPeriod" className="mt-1">
-                          <SelectValue placeholder="Selecione o período de lockup" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="3">3 meses</SelectItem>
-                          <SelectItem value="6">6 meses</SelectItem>
-                          <SelectItem value="12">12 meses</SelectItem>
-                          <SelectItem value="18">18 meses</SelectItem>
-                          <SelectItem value="24">24 meses</SelectItem>
-                        </SelectContent>
-                      </Select>
-                      <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">
-                        Período durante o qual os tokens não poderão ser vendidos após a conclusão da oferta.
+
+                  <div className="flex items-start mb-6">
+                    <input 
+                      type="checkbox" 
+                      id="listOnBinance" 
+                      className="h-4 w-4 mt-1 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500" 
+                      checked={formData.listOnBinance}
+                      onChange={(e) => handleCheckboxChange("listOnBinance", e.target.checked)}
+                    />
+                    <div className="ml-3">
+                      <Label htmlFor="listOnBinance" className="text-lg font-medium flex items-center">
+                        <CurrencyBitcoin className="h-5 w-5 mr-2 text-amber-500" />
+                        Desejo listar meu token na Binance
+                      </Label>
+                      <p className="text-sm text-slate-500 dark:text-slate-400">
+                        Ao marcar esta opção, você indica interesse em listar seu token na Binance e deve atender aos requisitos abaixo.
                       </p>
                     </div>
                   </div>
-                  
-                  <div className="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg p-4">
-                    <h3 className="font-medium text-lg mb-4">Taxas e Custos</h3>
-                    
-                    <div className="space-y-4">
-                      <div className="flex justify-between items-center">
-                        <div>
-                          <p className="font-medium">Taxa de Listagem</p>
-                          <p className="text-sm text-slate-500 dark:text-slate-400">
-                            Taxa única para criar a oferta na plataforma.
-                          </p>
+
+                  {formData.listOnBinance && (
+                    <>
+                      <div className="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg p-4 mb-6">
+                        <h3 className="font-medium text-lg mb-4 flex items-center">
+                          <Shield className="h-5 w-5 mr-2 text-blue-500" />
+                          Requisitos da Binance
+                        </h3>
+                        
+                        <div className="space-y-4 mb-4">
+                          {binanceRequirements.map((requirement) => (
+                            <div key={requirement.id} className="flex items-start">
+                              <input 
+                                type="checkbox" 
+                                id={requirement.id} 
+                                className="h-4 w-4 mt-1 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500" 
+                                checked={formData.binanceRequirements[requirement.id] || false}
+                                onChange={(e) => handleBinanceRequirementChange(requirement.id, e.target.checked)}
+                              />
+                              <div className="ml-3">
+                                <Label htmlFor={requirement.id} className="font-medium flex items-center">
+                                  {requirement.label}
+                                  {requirement.required && (
+                                    <span className="ml-1 text-red-500">*</span>
+                                  )}
+                                </Label>
+                                <p className="text-sm text-slate-500 dark:text-slate-400">
+                                  {requirement.description}
+                                </p>
+                              </div>
+                            </div>
+                          ))}
                         </div>
-                        <span className="font-medium">R$ 5.000,00</span>
-                      </div>
-                      
-                      <div className="flex justify-between items-center">
-                        <div>
-                          <p className="font-medium">Taxa de Sucesso</p>
-                          <p className="text-sm text-slate-500 dark:text-slate-400">
-                            Percentual cobrado sobre o valor captado.
-                          </p>
+
+                        <div className="bg-slate-50 dark:bg-slate-700 p-3 rounded-lg">
+                          <div className="flex justify-between items-center mb-2">
+                            <p className="text-sm font-medium">Progresso dos Requisitos</p>
+                            <p className="text-sm font-medium">
+                              {requiredBinanceRequirementsMet}/{totalRequiredBinanceRequirements} obrigatórios • 
+                              {binanceRequirementsMet}/{totalBinanceRequirements} total
+                            </p>
+                          </div>
+                          <div className="w-full bg-slate-200 dark:bg-slate-600 rounded-full h-2.5">
+                            <div className="bg-blue-500 h-2.5 rounded-full" 
+                              style={{ width: `${(binanceRequirementsMet / totalBinanceRequirements) * 100}%` }}></div>
+                          </div>
                         </div>
-                        <span className="font-medium">3%</span>
                       </div>
-                      
-                      <div className="flex justify-between items-center">
+
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div>
-                          <p className="font-medium">Custo de Tokenização</p>
-                          <p className="text-sm text-slate-500 dark:text-slate-400">
-                            Custos de emissão e distribuição dos tokens.
-                          </p>
+                          <Label htmlFor="binanceTokenType">
+                            Tipo de Token
+                          </Label>
+                          <Select 
+                            name="binanceTokenType" 
+                            value={formData.binanceTokenType} 
+                            onValueChange={(value) => handleSelectChange("binanceTokenType", value)}
+                          >
+                            <SelectTrigger id="binanceTokenType" className="mt-1">
+                              <SelectValue placeholder="Selecione o tipo de token" />
+                            </SelectTrigger>
+                            <SelectContent>
+                              <SelectItem value="BEP20">BEP-20 (Binance Smart Chain)</SelectItem>
+                              <SelectItem value="BEP2">BEP-2 (Binance Chain)</SelectItem>
+                              <SelectItem value="BEP8">BEP-8 (Binance Chain Mini-Tokens)</SelectItem>
+                            </SelectContent>
+                          </Select>
                         </div>
-                        <span className="font-medium">R$ 10.000,00</span>
+
+                        <div>
+                          <Label htmlFor="binanceComplianceContact">
+                            Contato do Responsável por Compliance
+                          </Label>
+                          <Input 
+                            id="binanceComplianceContact"
+                            name="binanceComplianceContact"
+                            value={formData.binanceComplianceContact}
+                            onChange={handleInputChange}
+                            placeholder="nome@empresa.com"
+                            className="mt-1"
+                            type="email"
+                          />
+                        </div>
                       </div>
-                    </div>
-                  </div>
+
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+                        <div className="border border-dashed border-slate-300 dark:border-slate-600 rounded-lg p-4">
+                          <div className="flex flex-col items-center justify-center text-center">
+                            <FileText className="h-8 w-8 text-slate-400 mb-4" />
+                            <h3 className="font-medium mb-1">White Paper</h3>
+                            <p className="text-sm text-slate-500 dark:text-slate-400 mb-4">
+                              Documento detalhado sobre o projeto, tokenomics e utilidade
+                            </p>
+                            <Button type="button" variant="outline" size="sm" className="relative">
+                              <span>Selecionar Arquivo</span>
+                              <input 
+                                type="file" 
+                                className="absolute inset-0 w-full h-full opacity-0 cursor-pointer" 
+                                onChange={(e) => setFormData(prev => ({ ...prev, binanceWhitePaper: e.target.files?.[0] || null }))}
+                              />
+                            </Button>
+                            
+                            {formData.binanceWhitePaper && (
+                              <div className="mt-4 text-sm">
+                                <p className="flex items-center text-green-600 dark:text-green-400">
+                                  <CheckCircle className="h-4 w-4 mr-1" />
+                                  {formData.binanceWhitePaper.name}
+                                </p>
+                              </div>
+                            )}
+                          </div>
+                        </div>
+                        
+                        <div className="border border-dashed border-slate-300 dark:border-slate-600 rounded-lg p-4">
+                          <div className="flex flex-col items-center justify-center text-center">
+                            <Shield className="h-8 w-8 text-slate-400 mb-4" />
+                            <h3 className="font-medium mb-1">Auditoria de Smart Contract</h3>
+                            <p className="text-sm text-slate-500 dark:text-slate-400 mb-4">
+                              Relatório de auditoria de segurança do contrato
+                            </p>
+                            <Button type="button" variant="outline" size="sm" className="relative">
+                              <span>Selecionar Arquivo</span>
+                              <input 
+                                type="file" 
+                                className="absolute inset-0 w-full h-full opacity-0 cursor-pointer" 
+                                onChange={(e) => setFormData(prev => ({ ...prev, binanceSmartContractAudit: e.target.files?.[0] || null }))}
+                              />
+                            </Button>
+                            
+                            {formData.binanceSmartContractAudit && (
+                              <div className="mt-4 text-sm">
+                                <p className="flex items-center text-green-600 dark:text-green-400">
+                                  <CheckCircle className="h-4 w-4 mr-1" />
+                                  {formData.binanceSmartContractAudit.name}
+                                </p>
+                              </div>
+                            )}
+                          </div>
+                        </div>
+                      </div>
+                    </>
+                  )}
                 </div>
               )}
               
-              {/* Step 5: Review */}
+              {/* Step 5: Terms */}
               {currentStep === 4 && (
                 <div className="space-y-6">
-                  <div className="rounded-lg border border-slate-200 dark:border-slate-700 overflow-hidden">
-                    <div className="bg-slate-50 dark:bg-slate-800 p-4 border-b border-slate-200 dark:border-slate-700">
-                      <h3 className="font-medium">Informações Básicas</h3>
-                    </div>
-                    <div className="p-4 space-y-4">
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div>
-                          <p className="text-sm text-slate-500 dark:text-slate-400">Título</p>
-                          <p className="font-medium">{formData.title || "Não informado"}</p>
-                        </div>
-                        <div>
-                          <p className="text-sm text-slate-500 dark:text-slate-400">Categoria</p>
-                          <p className="font-medium">{formData.category || "Não informada"}</p>
-                        </div>
-                      </div>
-                      
-                      <div>
-                        <p className="text-sm text-slate-500 dark:text-slate-400">Descrição</p>
-                        <p className="font-medium">{formData.description || "Não informada"}</p>
-                      </div>
-                      
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div>
-                          <p className="text-sm text-slate-500 dark:text-slate-400">Valor da Captação</p>
-                          <p className="font-medium">
-                            {formData.goalAmount ? `R$ ${parseFloat(formData.goalAmount).toLocaleString()}` : "Não informado"}
-                          </p>
-                        </div>
-                        <div>
-                          <p className="text-sm text-slate-500 dark:text-slate-400">Investimento Mínimo</p>
-                          <p className="font-medium">
-                            {formData.minInvestment ? `R$ ${parseFloat(formData.minInvestment).toLocaleString()}` : "Não informado"}
-                          </p>
-                        </div>
-                      </div>
-                      
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div>
-                          <p className="text-sm text-slate-500 dark:text-slate-400">Data de Início</p>
-                          <p className="font-medium">
-                            {formData.startDate ? new Date(formData.startDate).toLocaleDateString('pt-BR') : "Não informada"}
-                          </p>
-                        </div>
-                        <div>
-                          <p className="text-sm text-slate-500 dark:text-slate-400">Data de Encerramento</p>
-                          <p className="font-medium">
-                            {formData.endDate ? new Date(formData.endDate).toLocaleDateString('pt-BR') : "Não informada"}
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  
-                  <div className="rounded-lg border border-slate-200 dark:border-slate-700 overflow-hidden">
-                    <div className="bg-slate-50 dark:bg-slate-800 p-4 border-b border-slate-200 dark:border-slate-700">
-                      <h3 className="font-medium">Tokenização</h3>
-                    </div>
-                    <div className="p-4 space-y-4">
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div>
-                          <p className="text-sm text-slate-500 dark:text-slate-400">Nome do Token</p>
-                          <p className="font-medium">{formData.tokenName || "Não informado"}</p>
-                        </div>
-                        <div>
-                          <p className="text-sm text-slate-500 dark:text-slate-400">Símbolo</p>
-                          <p className="font-medium">{formData.tokenSymbol || "Não informado"}</p>
-                        </div>
-                      </div>
-                      
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div>
-                          <p className="text-sm text-slate-500 dark:text-slate-400">Preço por Token</p>
-                          <p className="font-medium">
-                            {formData.tokenPrice ? `R$ ${parseFloat(formData.tokenPrice).toFixed(2)}` : "Não informado"}
-                          </p>
-                        </div>
-                        <div>
-                          <p className="text-sm text-slate-500 dark:text-slate-400">Quantidade Total</p>
-                          <p className="font-medium">
-                            {formData.totalTokens ? parseInt(formData.totalTokens).toLocaleString() : "Não informada"}
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  
-                  <div className="rounded-lg border border-slate-200 dark:border-slate-700 overflow-hidden">
-                    <div className="bg-slate-50 dark:bg-slate-800 p-4 border-b border-slate-200 dark:border-slate-700">
-                      <h3 className="font-medium">Documentos</h3>
-                    </div>
-                    <div className="p-4 space-y-4">
-                      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                        <div>
-                          <p className="text-sm text-slate-500 dark:text-slate-400">Pitch Deck</p>
-                          <p className="font-medium">
-                            {formData.documentsPitch ? 
-                              <span className="flex items-center text-green-600 dark:text-green-400">
-                                <CheckCircle className="h-4 w-4 mr-1" />
-                                Carregado
-                              </span> : 
-                              "Não carregado"}
-                          </p>
-                        </div>
-                        <div>
-                          <p className="text-sm text-slate-500 dark:text-slate-400">Demonstrações Financeiras</p>
-                          <p className="font-medium">
-                            {formData.documentsFinancial ? 
-                              <span className="flex items-center text-green-600 dark:text-green-400">
-                                <CheckCircle className="h-4 w-4 mr-1" />
-                                Carregado
-                              </span> : 
-                              "Não carregado"}
-                          </p>
-                        </div>
-                        <div>
-                          <p className="text-sm text-slate-500 dark:text-slate-400">Documentos Legais</p>
-                          <p className="font-medium">
-                            {formData.documentsLegal ? 
-                              <span className="flex items-center text-green-600 dark:text-green-400">
-                                <CheckCircle className="h-4 w-4 mr-1" />
-                                Carregado
-                              </span> : 
-                              "Não carregado"}
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  
-                  <div className="rounded-lg border border-slate-200 dark:border-slate-700 overflow-hidden">
-                    <div className="bg-slate-50 dark:bg-slate-800 p-4 border-b border-slate-200 dark:border-slate-700">
-                      <h3 className="font-medium">Termos e Condições</h3>
-                    </div>
-                    <div className="p-4 space-y-4">
-                      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                        <div>
-                          <p className="text-sm text-slate-500 dark:text-slate-400">Direito a Dividendos</p>
-                          <p className="font-medium">
-                            {formData.termsRightToDividends ? "Sim" : "Não"}
-                          </p>
-                        </div>
-                        <div>
-                          <p className="text-sm text-slate-500 dark:text-slate-400">Direito a Voto</p>
-                          <p className="font-medium">
-                            {formData.termsVotingRights ? "Sim" : "Não"}
-                          </p>
-                        </div>
-                        <div>
-                          <p className="text-sm text-slate-500 dark:text-slate-400">Período de Lockup</p>
-                          <p className="font-medium">
-                            {formData.termsLockupPeriod} meses
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  
-                  <div className="flex items-center p-4 bg-amber-50 dark:bg-amber-900/20 rounded-lg border border-amber-100 dark:border-amber-800">
-                    <input 
-                      type="checkbox" 
-                      id="confirmTerms" 
-                      className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500 mr-3" 
-                      required
-                    />
-                    <Label htmlFor="confirmTerms" className="text-sm text-amber-700 dark:text-amber-400">
-                      Confirmo que as informações fornecidas são precisas e que estou autorizado a criar esta oferta em nome da empresa.
-                    </Label>
-                  </div>
-                </div>
-              )}
-              
-              {/* Navigation Buttons */}
-              <div className="flex justify-between mt-6">
-                {currentStep > 0 ? (
-                  <Button 
-                    type="button" 
-                    variant="outline" 
-                    onClick={handlePrevStep}
-                  >
-                    <ArrowLeft className="mr-2 h-4 w-4" />
-                    Voltar
-                  </Button>
-                ) : (
-                  <Button 
-                    type="button" 
-                    variant="outline" 
-                    onClick={() => navigate('/company')}
-                  >
-                    Cancelar
-                  </Button>
-                )}
-                
-                {currentStep < steps.length - 1 ? (
-                  <Button type="submit">
-                    Próximo
-                    <ArrowRight className="ml-2 h-4 w-4" />
-                  </Button>
-                ) : (
-                  <Button type="submit" className="bg-gradient-to-r from-brand-blue-500 to-brand-green-500 text-white">
-                    Criar Oferta
-                    <CheckCircle className="ml-2 h-4 w-4" />
-                  </Button>
-                )}
-              </div>
-            </form>
-          </CardContent>
-        </Card>
-      </div>
-    </MainLayout>
-  );
-};
-
-export default CreateOffer;
+                  <div className="bg-white dark:bg-slate-800 border border-slate-20
