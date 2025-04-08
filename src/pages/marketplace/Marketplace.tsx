@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import MainLayout from "@/components/layout/MainLayout";
@@ -93,9 +92,6 @@ const Marketplace = () => {
           </div>
           
           <div className="flex items-center gap-2">
-            <Link to="/investor/portfolio">
-              <Button variant="outline">Meu Portfólio</Button>
-            </Link>
             <Link to="/investor">
               <Button className="bg-gradient-to-r from-brand-blue-500 to-brand-green-500 text-white">
                 Oportunidades
