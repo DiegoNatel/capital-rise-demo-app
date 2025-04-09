@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import MainLayout from "@/components/layout/MainLayout";
 import { 
@@ -36,14 +35,13 @@ import DocumentList from "./components/documents/DocumentList";
 import VersionHistory from "./components/documents/VersionHistory";
 import AccessControl from "./components/documents/AccessControl";
 import DocumentAnalytics from "./components/documents/DocumentAnalytics";
-import { investorDocuments } from "@/data/investorDocuments";
+import { investorDocuments } from "@/data/documents";
 
 const DocumentRepository = () => {
   const [activeTab, setActiveTab] = useState("financial");
   const [searchQuery, setSearchQuery] = useState("");
   const [category, setCategory] = useState("all");
 
-  // Filter documents based on search query and category
   const filteredDocuments = investorDocuments.filter((doc) => {
     const matchesSearch = doc.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
       doc.description.toLowerCase().includes(searchQuery.toLowerCase());
@@ -98,7 +96,6 @@ const DocumentRepository = () => {
         </Card>
 
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
-          {/* Sidebar */}
           <div className="lg:col-span-1">
             <Card>
               <CardHeader>
@@ -123,7 +120,6 @@ const DocumentRepository = () => {
             </Card>
           </div>
 
-          {/* Main content */}
           <div className="lg:col-span-3">
             <Tabs 
               defaultValue="financial" 

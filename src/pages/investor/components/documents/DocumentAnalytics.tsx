@@ -1,4 +1,3 @@
-
 import {
   Card,
   CardContent,
@@ -19,7 +18,7 @@ import {
   Cell,
   Legend
 } from "recharts";
-import { documentAnalytics } from "@/data/investorDocuments";
+import { documentAnalytics } from "@/data/documents";
 
 const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042", "#8884d8"];
 

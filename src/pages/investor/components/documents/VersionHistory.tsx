@@ -1,4 +1,3 @@
-
 import {
   Table,
   TableBody,
@@ -8,8 +7,8 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
-import { Download, ArrowDown } from "lucide-react";
-import { documentVersions } from "@/data/investorDocuments";
+import { Download } from "lucide-react";
+import { documentVersions } from "@/data/documents";
 
 interface VersionHistoryProps {
   documentId: string;

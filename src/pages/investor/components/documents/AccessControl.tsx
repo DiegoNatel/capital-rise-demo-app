@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import {
   Table,
@@ -18,7 +17,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
 import { Save, UserCheck, UserX } from "lucide-react";
-import { documentAccessLevels } from "@/data/investorDocuments";
+import { documentAccessLevels } from "@/data/documents";
 
 interface AccessControlProps {
   documentId?: string;
