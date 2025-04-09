@@ -108,8 +108,7 @@ const DocumentRepository = () => {
               <CardContent className="p-0">
                 <div className="space-y-1 px-4 pb-4">
                   <Button variant="ghost" className="w-full justify-start" onClick={() => {}}>
-                    <VersionHistory className="h-4 w-4 mr-2" />
-                    Histórico de Versões
+                    <VersionHistory documentId="doc-001" />
                   </Button>
                   <Button variant="ghost" className="w-full justify-start" onClick={() => {}}>
                     <FileCog className="h-4 w-4 mr-2" />
