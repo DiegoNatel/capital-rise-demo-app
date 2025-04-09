@@ -20,6 +20,7 @@ import OfferDetails from "@/pages/investor/OfferDetails";
 import Portfolio from "@/pages/investor/Portfolio";
 import CompanyProfile from "@/pages/investor/CompanyProfile";
 import NotFound from "@/pages/NotFound";
+import InvestorCommunication from "@/pages/investor/InvestorCommunication";
 
 const queryClient = new QueryClient();
 
@@ -80,6 +81,11 @@ const AppRoutes = () => {
       <Route path="/investor/portfolio" element={
         <ProtectedRoute>
           <Portfolio />
+        </ProtectedRoute>
+      } />
+      <Route path="/investor/communication" element={
+        <ProtectedRoute>
+          <InvestorCommunication />
         </ProtectedRoute>
       } />
       <Route path="/marketplace" element={

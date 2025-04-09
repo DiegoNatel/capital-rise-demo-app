@@ -42,4 +42,10 @@ export const binanceRequirements = [
     description: "Parceria com um market maker para garantir liquidez",
     required: false
   },
+  { 
+    id: "investor_communication", 
+    label: "Comunicação com Investidores", 
+    description: "Plano para divulgação de relatórios e comunicação transparente",
+    required: true
+  },
 ];
