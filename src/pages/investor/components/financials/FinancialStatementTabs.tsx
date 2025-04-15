@@ -1,5 +1,5 @@
 
-import { FileText, FileSpreadsheet, BarChart3 } from "lucide-react";
+import { FileText, FileSpreadsheet, BarChart3, TrendingUp } from "lucide-react";
 import {
   Tabs,
   TabsContent,
@@ -10,6 +10,7 @@ import {
 import IncomeStatement from "./IncomeStatement";
 import BalanceSheet from "./BalanceSheet";
 import CashFlowStatement from "./CashFlowStatement";
+import MainIndicators from "./MainIndicators";
 
 interface FinancialStatementTabsProps {
   companyData: any;
@@ -17,8 +18,12 @@ interface FinancialStatementTabsProps {
 
 const FinancialStatementTabs = ({ companyData }: FinancialStatementTabsProps) => {
   return (
-    <Tabs defaultValue="income" className="w-full">
+    <Tabs defaultValue="indicators" className="w-full">
       <TabsList className="mb-4">
+        <TabsTrigger value="indicators" className="flex items-center">
+          <TrendingUp className="h-4 w-4 mr-2" />
+          Indicadores Principais
+        </TabsTrigger>
         <TabsTrigger value="income" className="flex items-center">
           <FileText className="h-4 w-4 mr-2" />
           DRE
@@ -32,6 +37,11 @@ const FinancialStatementTabs = ({ companyData }: FinancialStatementTabsProps) =>
           Fluxo de Caixa
         </TabsTrigger>
       </TabsList>
+      
+      {/* Main Indicators */}
+      <TabsContent value="indicators">
+        <MainIndicators companyData={companyData} />
+      </TabsContent>
       
       {/* Income Statement (DRE) */}
       <TabsContent value="income">

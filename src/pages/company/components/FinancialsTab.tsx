@@ -23,6 +23,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import MainIndicators from "../../investor/components/financials/MainIndicators";
 
 interface FinancialsTabProps {
   companyData: any;
@@ -39,8 +40,12 @@ const FinancialsTab = ({ companyData }: FinancialsTabProps) => {
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-8">
-          <Tabs defaultValue="income" className="w-full">
+          <Tabs defaultValue="indicators" className="w-full">
             <TabsList className="mb-4">
+              <TabsTrigger value="indicators" className="flex items-center">
+                <TrendingUp className="h-4 w-4 mr-2" />
+                Indicadores Principais
+              </TabsTrigger>
               <TabsTrigger value="income" className="flex items-center">
                 <FileText className="h-4 w-4 mr-2" />
                 DRE
@@ -54,6 +59,11 @@ const FinancialsTab = ({ companyData }: FinancialsTabProps) => {
                 Fluxo de Caixa
               </TabsTrigger>
             </TabsList>
+            
+            {/* Main Indicators tab */}
+            <TabsContent value="indicators">
+              <MainIndicators companyData={companyData} />
+            </TabsContent>
             
             {/* Income Statement (DRE) */}
             <TabsContent value="income">
