@@ -5,7 +5,7 @@ import { investorDocuments } from "@/data/documents";
 import { InvestorDocument } from "@/types/documents";
 import DocumentUploadForm from "./DocumentUploadForm";
 import DocumentRepositoryHeader from "./components/DocumentRepositoryHeader";
-import DocumentActions from "./components/DocumentActions";
+import RepositoryActions from "./components/RepositoryActions";
 import DocumentTabs from "./components/DocumentTabs";
 import DocumentWarning from "./components/DocumentWarning";
 import AccessControlCard from "./components/AccessControlCard";
@@ -41,7 +41,7 @@ const CompanyDocumentRepository = () => {
                 Aqui você pode gerenciar todos os documentos compartilhados com investidores.
               </p>
             </div>
-            <DocumentActions 
+            <RepositoryActions 
               showUploadForm={showUploadForm} 
               showAccessControl={showAccessControl}
               setShowUploadForm={setShowUploadForm}
