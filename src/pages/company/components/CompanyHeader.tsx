@@ -2,9 +2,10 @@
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { FileText, Pencil } from "lucide-react";
+import { Company } from "./types";
 
 interface CompanyHeaderProps {
-  companyData: any;
+  companyData: Company;
 }
 
 const CompanyHeader = ({ companyData }: CompanyHeaderProps) => {

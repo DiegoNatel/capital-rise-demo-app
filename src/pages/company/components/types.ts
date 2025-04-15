@@ -13,17 +13,19 @@ export interface Company {
   team: TeamMember[];
   highlights: string[];
   financials: {
-    years: number[];
+    years: string[]; // Changed from number[] to string[] to match the data
     revenue: number[];
     profit: number[];
   };
   logo?: string;
+  status?: 'active' | 'closed' | 'upcoming';
 }
 
 export interface TeamMember {
   name: string;
   position: string;
   photo?: string;
+  image?: string; // Added to accommodate both field names used in the data
 }
 
 export interface Offer {

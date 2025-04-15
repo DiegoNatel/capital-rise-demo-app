@@ -8,7 +8,7 @@ import {
 } from "@/components/ui/tabs";
 import { companies } from "@/data/companies";
 
-// Import our new component files
+// Import our component files
 import CompanyHeader from "./components/CompanyHeader";
 import OverviewTab from "./components/OverviewTab";
 import OffersTab from "./components/OffersTab";
@@ -17,7 +17,8 @@ import InvestorsTab from "./components/InvestorsTab";
 import { Company } from "./components/types";
 
 // Sample company for demo purposes
-const companyData = companies[0] as Company;
+// Cast the company to our Company interface
+const companyData = companies[0] as unknown as Company;
 
 const CompanyPortal = () => {
   return (
