@@ -1,3 +1,4 @@
+
 import {
   Table,
   TableBody,
@@ -7,7 +8,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
-import { Download } from "lucide-react";
+import { Download, Clock, FileText } from "lucide-react";
 import { documentVersions } from "@/data/documents";
 
 interface VersionHistoryProps {
