@@ -13,148 +13,117 @@ interface CashFlowStatementProps {
 }
 
 const CashFlowStatement = ({ companyData }: CashFlowStatementProps) => {
+  // Years for the financial data (last 3 years)
+  const currentYear = new Date().getFullYear();
+  const years = [currentYear - 2, currentYear - 1, currentYear];
+  
+  // Calculate cash flow items based on existing data
+  const operatingCashFlow = companyData.financials.profit.map(profit => profit * 1.2);
+  const investingCashFlow = companyData.financials.profit.map(profit => profit * -0.5);
+  const financingCashFlow = companyData.financials.profit.map((profit, index) => index === 2 ? profit * 0.3 : profit * -0.3);
+  const netCashFlow = operatingCashFlow.map((ocf, index) => ocf + investingCashFlow[index] + financingCashFlow[index]);
+  
   return (
-    <>
-      <h3 className="font-medium text-lg mb-4">Demonstrativo de Fluxo de Caixa</h3>
-      <div className="bg-white dark:bg-slate-800 rounded-lg border border-slate-200 dark:border-slate-700 overflow-hidden">
+    <div>
+      <h3 className="font-medium text-lg mb-4">Demonstração de Fluxo de Caixa</h3>
+      <div className="overflow-x-auto">
         <Table>
           <TableHeader>
-            <TableRow>
+            <TableRow className="bg-slate-50 dark:bg-slate-800">
               <TableHead>Item</TableHead>
-              {companyData.financials.years.map((year: string, index: number) => (
-                <TableHead key={index} className="text-right">{year}</TableHead>
+              {years.map(year => (
+                <TableHead key={year} className="text-right">{year}</TableHead>
               ))}
             </TableRow>
           </TableHeader>
           <TableBody>
+            {/* Operating Activities */}
             <TableRow className="bg-slate-50 dark:bg-slate-800">
-              <TableCell className="font-medium">Fluxo de Caixa Operacional</TableCell>
-              {companyData.financials.years.map((year: string, index: number) => (
-                <TableCell key={index} className="text-right font-medium"></TableCell>
+              <TableCell className="font-medium">Atividades Operacionais</TableCell>
+              {years.map((_, i) => <TableCell key={i} className="text-right"></TableCell>)}
+            </TableRow>
+            <TableRow>
+              <TableCell className="pl-6">Lucro Líquido</TableCell>
+              {companyData.financials.profit.map((value, index) => (
+                <TableCell key={index} className="text-right">
+                  R$ {value.toLocaleString()}
+                </TableCell>
               ))}
             </TableRow>
             <TableRow>
-              <TableCell>Lucro líquido</TableCell>
-              {companyData.financials.profit.map((value: number, index: number) => (
-                <TableCell key={index} className="text-right">R$ {value.toLocaleString()}</TableCell>
+              <TableCell className="pl-6">Ajustes</TableCell>
+              {years.map((_, index) => (
+                <TableCell key={index} className="text-right">
+                  R$ {(companyData.financials.profit[index] * 0.2).toLocaleString()}
+                </TableCell>
               ))}
             </TableRow>
             <TableRow>
-              <TableCell>(+) Depreciação e amortização</TableCell>
-              {companyData.financials.revenue.map((value: number, index: number) => (
-                <TableCell key={index} className="text-right">R$ {Math.round(value * 0.03).toLocaleString()}</TableCell>
-              ))}
-            </TableRow>
-            <TableRow>
-              <TableCell>(+/-) Variação no capital de giro</TableCell>
-              {companyData.financials.revenue.map((value: number, index: number) => (
-                <TableCell key={index} className="text-right text-red-500">R$ -{Math.round(value * 0.04).toLocaleString()}</TableCell>
-              ))}
-            </TableRow>
-            <TableRow>
-              <TableCell className="font-medium">Caixa líquido das atividades operacionais</TableCell>
-              {companyData.financials.profit.map((value: number, index: number) => (
-                <TableCell key={index} className="text-right font-medium">R$ {Math.round(value * 1.04).toLocaleString()}</TableCell>
+              <TableCell className="pl-6 font-medium">Fluxo de Caixa Operacional</TableCell>
+              {operatingCashFlow.map((value, index) => (
+                <TableCell key={index} className="text-right font-medium">
+                  R$ {value.toLocaleString()}
+                </TableCell>
               ))}
             </TableRow>
             
+            {/* Investing Activities */}
             <TableRow className="bg-slate-50 dark:bg-slate-800">
-              <TableCell className="font-medium">Fluxo de Caixa de Investimento</TableCell>
-              {companyData.financials.years.map((year: string, index: number) => (
-                <TableCell key={index} className="text-right font-medium"></TableCell>
+              <TableCell className="font-medium">Atividades de Investimento</TableCell>
+              {years.map((_, i) => <TableCell key={i} className="text-right"></TableCell>)}
+            </TableRow>
+            <TableRow>
+              <TableCell className="pl-6">Aquisição de Ativos</TableCell>
+              {investingCashFlow.map((value, index) => (
+                <TableCell key={index} className="text-right text-red-500">
+                  R$ {Math.abs(value).toLocaleString()}
+                </TableCell>
               ))}
             </TableRow>
             <TableRow>
-              <TableCell>(-) Aquisição de imobilizado</TableCell>
-              {companyData.financials.revenue.map((value: number, index: number) => (
-                <TableCell key={index} className="text-right text-red-500">R$ -{Math.round(value * 0.08).toLocaleString()}</TableCell>
-              ))}
-            </TableRow>
-            <TableRow>
-              <TableCell>(-) Investimentos em intangíveis</TableCell>
-              {companyData.financials.revenue.map((value: number, index: number) => (
-                <TableCell key={index} className="text-right text-red-500">R$ -{Math.round(value * 0.05).toLocaleString()}</TableCell>
-              ))}
-            </TableRow>
-            <TableRow>
-              <TableCell className="font-medium">Caixa líquido das atividades de investimento</TableCell>
-              {companyData.financials.revenue.map((value: number, index: number) => (
-                <TableCell key={index} className="text-right font-medium text-red-500">R$ -{Math.round(value * 0.13).toLocaleString()}</TableCell>
+              <TableCell className="pl-6 font-medium">Fluxo de Caixa de Investimento</TableCell>
+              {investingCashFlow.map((value, index) => (
+                <TableCell key={index} className="text-right font-medium">
+                  R$ {value.toLocaleString()}
+                </TableCell>
               ))}
             </TableRow>
             
+            {/* Financing Activities */}
             <TableRow className="bg-slate-50 dark:bg-slate-800">
-              <TableCell className="font-medium">Fluxo de Caixa de Financiamento</TableCell>
-              {companyData.financials.years.map((year: string, index: number) => (
-                <TableCell key={index} className="text-right font-medium"></TableCell>
+              <TableCell className="font-medium">Atividades de Financiamento</TableCell>
+              {years.map((_, i) => <TableCell key={i} className="text-right"></TableCell>)}
+            </TableRow>
+            <TableRow>
+              <TableCell className="pl-6">Empréstimos e Financiamentos</TableCell>
+              {financingCashFlow.map((value, index) => (
+                <TableCell key={index} className={`text-right ${value >= 0 ? 'text-green-500' : 'text-red-500'}`}>
+                  R$ {Math.abs(value).toLocaleString()}
+                </TableCell>
               ))}
             </TableRow>
             <TableRow>
-              <TableCell>(+) Captação de empréstimos</TableCell>
-              {companyData.financials.revenue.map((value: number, index: number) => (
-                <TableCell key={index} className="text-right">R$ {Math.round(value * 0.1).toLocaleString()}</TableCell>
-              ))}
-            </TableRow>
-            <TableRow>
-              <TableCell>(-) Amortização de empréstimos</TableCell>
-              {companyData.financials.revenue.map((value: number, index: number) => (
-                <TableCell key={index} className="text-right text-red-500">R$ -{Math.round(value * 0.07).toLocaleString()}</TableCell>
-              ))}
-            </TableRow>
-            <TableRow>
-              <TableCell>(-) Dividendos pagos</TableCell>
-              {companyData.financials.profit.map((value: number, index: number) => (
-                <TableCell key={index} className="text-right text-red-500">R$ -{Math.round(value * 0.3).toLocaleString()}</TableCell>
-              ))}
-            </TableRow>
-            <TableRow>
-              <TableCell className="font-medium">Caixa líquido das atividades de financiamento</TableCell>
-              {companyData.financials.profit.map((value: number, index: number) => (
-                <TableCell key={index} className="text-right font-medium text-red-500">R$ -{Math.round(value * 0.2).toLocaleString()}</TableCell>
+              <TableCell className="pl-6 font-medium">Fluxo de Caixa de Financiamento</TableCell>
+              {financingCashFlow.map((value, index) => (
+                <TableCell key={index} className="text-right font-medium">
+                  R$ {value.toLocaleString()}
+                </TableCell>
               ))}
             </TableRow>
             
+            {/* Net Cash Flow */}
             <TableRow className="bg-slate-50 dark:bg-slate-800">
-              <TableCell className="font-semibold">Aumento/Redução do Caixa</TableCell>
-              {companyData.financials.profit.map((value: number, index: number) => {
-                const operacional = value * 1.04;
-                const investimento = -companyData.financials.revenue[index] * 0.13;
-                const financiamento = -value * 0.2;
-                const total = operacional + investimento + financiamento;
-                return (
-                  <TableCell key={index} className={`text-right font-semibold ${total >= 0 ? 'text-green-500' : 'text-red-500'}`}>
-                    {total >= 0 ? 'R$ ' : 'R$ -'}
-                    {Math.abs(Math.round(total)).toLocaleString()}
-                  </TableCell>
-                );
-              })}
-            </TableRow>
-            <TableRow>
-              <TableCell>Caixa no início do período</TableCell>
-              {companyData.financials.revenue.map((value: number, index: number) => (
-                <TableCell key={index} className="text-right">R$ {Math.round(value * 0.12).toLocaleString()}</TableCell>
+              <TableCell className="font-medium">Fluxo de Caixa Líquido</TableCell>
+              {netCashFlow.map((value, index) => (
+                <TableCell key={index} className="text-right font-medium">
+                  R$ {value.toLocaleString()}
+                </TableCell>
               ))}
-            </TableRow>
-            <TableRow>
-              <TableCell className="font-medium">Caixa no fim do período</TableCell>
-              {companyData.financials.profit.map((value: number, index: number) => {
-                const operacional = value * 1.04;
-                const investimento = -companyData.financials.revenue[index] * 0.13;
-                const financiamento = -value * 0.2;
-                const variacao = operacional + investimento + financiamento;
-                const inicial = companyData.financials.revenue[index] * 0.12;
-                const final = inicial + variacao;
-                return (
-                  <TableCell key={index} className="text-right font-medium">
-                    R$ {Math.round(final).toLocaleString()}
-                  </TableCell>
-                );
-              })}
             </TableRow>
           </TableBody>
         </Table>
       </div>
-    </>
+    </div>
   );
 };
 
