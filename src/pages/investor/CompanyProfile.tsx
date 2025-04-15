@@ -20,6 +20,7 @@ import { ChevronRight, BarChart3, Users, DollarSign, CheckCircle, FileText, Brie
 import { Progress } from "@/components/ui/progress";
 import { companies } from "@/data/companies";
 import { offersWithCompanyData } from "@/data/offers";
+import InvestorsTab from "./components/InvestorsTab";
 
 const CompanyProfile = () => {
   const { id } = useParams();
@@ -377,6 +378,7 @@ const CompanyProfile = () => {
                 </CardDescription>
               </CardHeader>
               <CardContent className="space-y-8">
+                {/* Income Statement */}
                 <div>
                   <h3 className="font-medium text-lg mb-4">Demonstrativo de Resultados</h3>
                   <div className="bg-white dark:bg-slate-800 rounded-lg border border-slate-200 dark:border-slate-700 overflow-hidden">
@@ -419,6 +421,129 @@ const CompanyProfile = () => {
                   </div>
                 </div>
                 
+                {/* Balance Sheet */}
+                <div>
+                  <h3 className="font-medium text-lg mb-4">Balanço Patrimonial</h3>
+                  <div className="bg-white dark:bg-slate-800 rounded-lg border border-slate-200 dark:border-slate-700 overflow-hidden">
+                    <table className="w-full">
+                      <thead>
+                        <tr className="bg-slate-50 dark:bg-slate-700">
+                          <th className="text-left p-3 text-sm font-medium">Item</th>
+                          <th className="text-right p-3 text-sm font-medium">{companyData.financials.years[companyData.financials.years.length - 1]}</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr className="border-t border-slate-200 dark:border-slate-700">
+                          <td className="p-3 font-medium">Ativos</td>
+                          <td className="text-right p-3"></td>
+                        </tr>
+                        <tr className="border-t border-slate-200 dark:border-slate-700">
+                          <td className="p-3 pl-6">Caixa e Equivalentes</td>
+                          <td className="text-right p-3">R$ {Math.round(companyData.valuation * 0.12).toLocaleString()}</td>
+                        </tr>
+                        <tr className="border-t border-slate-200 dark:border-slate-700">
+                          <td className="p-3 pl-6">Contas a Receber</td>
+                          <td className="text-right p-3">R$ {Math.round(companyData.valuation * 0.08).toLocaleString()}</td>
+                        </tr>
+                        <tr className="border-t border-slate-200 dark:border-slate-700">
+                          <td className="p-3 pl-6">Ativos Fixos</td>
+                          <td className="text-right p-3">R$ {Math.round(companyData.valuation * 0.35).toLocaleString()}</td>
+                        </tr>
+                        <tr className="border-t border-slate-200 dark:border-slate-700">
+                          <td className="p-3 pl-6">Outros Ativos</td>
+                          <td className="text-right p-3">R$ {Math.round(companyData.valuation * 0.15).toLocaleString()}</td>
+                        </tr>
+                        <tr className="border-t border-slate-200 dark:border-slate-700 font-medium">
+                          <td className="p-3">Total de Ativos</td>
+                          <td className="text-right p-3">R$ {Math.round(companyData.valuation * 0.7).toLocaleString()}</td>
+                        </tr>
+                        <tr className="border-t border-slate-200 dark:border-slate-700">
+                          <td className="p-3 font-medium">Passivos</td>
+                          <td className="text-right p-3"></td>
+                        </tr>
+                        <tr className="border-t border-slate-200 dark:border-slate-700">
+                          <td className="p-3 pl-6">Contas a Pagar</td>
+                          <td className="text-right p-3">R$ {Math.round(companyData.valuation * 0.05).toLocaleString()}</td>
+                        </tr>
+                        <tr className="border-t border-slate-200 dark:border-slate-700">
+                          <td className="p-3 pl-6">Empréstimos</td>
+                          <td className="text-right p-3">R$ {Math.round(companyData.valuation * 0.15).toLocaleString()}</td>
+                        </tr>
+                        <tr className="border-t border-slate-200 dark:border-slate-700">
+                          <td className="p-3 pl-6">Outros Passivos</td>
+                          <td className="text-right p-3">R$ {Math.round(companyData.valuation * 0.1).toLocaleString()}</td>
+                        </tr>
+                        <tr className="border-t border-slate-200 dark:border-slate-700">
+                          <td className="p-3 font-medium">Patrimônio Líquido</td>
+                          <td className="text-right p-3">R$ {Math.round(companyData.valuation * 0.4).toLocaleString()}</td>
+                        </tr>
+                        <tr className="border-t border-slate-200 dark:border-slate-700 font-medium">
+                          <td className="p-3">Total de Passivos e Patrimônio</td>
+                          <td className="text-right p-3">R$ {Math.round(companyData.valuation * 0.7).toLocaleString()}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+                
+                {/* Cash Flow */}
+                <div>
+                  <h3 className="font-medium text-lg mb-4">Fluxo de Caixa</h3>
+                  <div className="bg-white dark:bg-slate-800 rounded-lg border border-slate-200 dark:border-slate-700 overflow-hidden">
+                    <table className="w-full">
+                      <thead>
+                        <tr className="bg-slate-50 dark:bg-slate-700">
+                          <th className="text-left p-3 text-sm font-medium">Item</th>
+                          <th className="text-right p-3 text-sm font-medium">{companyData.financials.years[companyData.financials.years.length - 1]}</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr className="border-t border-slate-200 dark:border-slate-700">
+                          <td className="p-3">Lucro Líquido</td>
+                          <td className="text-right p-3">R$ {companyData.financials.profit[companyData.financials.profit.length - 1].toLocaleString()}</td>
+                        </tr>
+                        <tr className="border-t border-slate-200 dark:border-slate-700">
+                          <td className="p-3">Depreciação e Amortização</td>
+                          <td className="text-right p-3">R$ {Math.round(companyData.valuation * 0.03).toLocaleString()}</td>
+                        </tr>
+                        <tr className="border-t border-slate-200 dark:border-slate-700">
+                          <td className="p-3">Variação do Capital de Giro</td>
+                          <td className="text-right p-3">R$ {Math.round(companyData.valuation * -0.02).toLocaleString()}</td>
+                        </tr>
+                        <tr className="border-t border-slate-200 dark:border-slate-700 font-medium">
+                          <td className="p-3">Fluxo de Caixa Operacional</td>
+                          <td className="text-right p-3">R$ {(companyData.financials.profit[companyData.financials.profit.length - 1] + Math.round(companyData.valuation * 0.01)).toLocaleString()}</td>
+                        </tr>
+                        <tr className="border-t border-slate-200 dark:border-slate-700">
+                          <td className="p-3">Investimentos em Ativos</td>
+                          <td className="text-right p-3">R$ {Math.round(companyData.valuation * -0.08).toLocaleString()}</td>
+                        </tr>
+                        <tr className="border-t border-slate-200 dark:border-slate-700 font-medium">
+                          <td className="p-3">Fluxo de Caixa de Investimentos</td>
+                          <td className="text-right p-3">R$ {Math.round(companyData.valuation * -0.08).toLocaleString()}</td>
+                        </tr>
+                        <tr className="border-t border-slate-200 dark:border-slate-700">
+                          <td className="p-3">Captações</td>
+                          <td className="text-right p-3">R$ {Math.round(companyData.valuation * 0.05).toLocaleString()}</td>
+                        </tr>
+                        <tr className="border-t border-slate-200 dark:border-slate-700">
+                          <td className="p-3">Pagamentos de Dívidas</td>
+                          <td className="text-right p-3">R$ {Math.round(companyData.valuation * -0.03).toLocaleString()}</td>
+                        </tr>
+                        <tr className="border-t border-slate-200 dark:border-slate-700 font-medium">
+                          <td className="p-3">Fluxo de Caixa de Financiamento</td>
+                          <td className="text-right p-3">R$ {Math.round(companyData.valuation * 0.02).toLocaleString()}</td>
+                        </tr>
+                        <tr className="border-t border-slate-200 dark:border-slate-700 font-medium">
+                          <td className="p-3">Variação Líquida de Caixa</td>
+                          <td className="text-right p-3">R$ {Math.round(companyData.valuation * 0.04).toLocaleString()}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+                
+                {/* Financial Indicators */}
                 <div>
                   <h3 className="font-medium text-lg mb-4">Indicadores Financeiros</h3>
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -467,128 +592,8 @@ const CompanyProfile = () => {
           </TabsContent>
           
           {/* Investors Tab */}
-          <TabsContent value="investors" className="space-y-8 mt-6">
-            <Card>
-              <CardHeader>
-                <CardTitle>Base de Investidores</CardTitle>
-                <CardDescription>
-                  Perfil e distribuição dos investidores
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-6">
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                  <div className="bg-slate-50 dark:bg-slate-800 rounded-lg p-4">
-                    <p className="text-sm text-slate-500 dark:text-slate-400">Total de Investidores</p>
-                    <p className="text-3xl font-bold mt-1">142</p>
-                  </div>
-                  <div className="bg-slate-50 dark:bg-slate-800 rounded-lg p-4">
-                    <p className="text-sm text-slate-500 dark:text-slate-400">Ticket Médio</p>
-                    <p className="text-3xl font-bold mt-1">R$ 22.887</p>
-                  </div>
-                  <div className="bg-slate-50 dark:bg-slate-800 rounded-lg p-4">
-                    <p className="text-sm text-slate-500 dark:text-slate-400">Retenção</p>
-                    <p className="text-3xl font-bold mt-1">94%</p>
-                  </div>
-                </div>
-                
-                <div>
-                  <h3 className="font-medium text-lg mb-4">Distribuição Geográfica</h3>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div className="bg-white dark:bg-slate-800 rounded-lg border border-slate-200 dark:border-slate-700 overflow-hidden">
-                      <table className="w-full">
-                        <thead>
-                          <tr className="bg-slate-50 dark:bg-slate-700">
-                            <th className="text-left p-3 text-sm font-medium">Região</th>
-                            <th className="text-right p-3 text-sm font-medium">Investidores</th>
-                            <th className="text-right p-3 text-sm font-medium">Percentual</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr className="border-t border-slate-200 dark:border-slate-700">
-                            <td className="p-3">Sudeste</td>
-                            <td className="text-right p-3">87</td>
-                            <td className="text-right p-3">61.3%</td>
-                          </tr>
-                          <tr className="border-t border-slate-200 dark:border-slate-700">
-                            <td className="p-3">Sul</td>
-                            <td className="text-right p-3">24</td>
-                            <td className="text-right p-3">16.9%</td>
-                          </tr>
-                          <tr className="border-t border-slate-200 dark:border-slate-700">
-                            <td className="p-3">Nordeste</td>
-                            <td className="text-right p-3">18</td>
-                            <td className="text-right p-3">12.7%</td>
-                          </tr>
-                          <tr className="border-t border-slate-200 dark:border-slate-700">
-                            <td className="p-3">Centro-Oeste</td>
-                            <td className="text-right p-3">9</td>
-                            <td className="text-right p-3">6.3%</td>
-                          </tr>
-                          <tr className="border-t border-slate-200 dark:border-slate-700">
-                            <td className="p-3">Norte</td>
-                            <td className="text-right p-3">4</td>
-                            <td className="text-right p-3">2.8%</td>
-                          </tr>
-                        </tbody>
-                      </table>
-                    </div>
-                    
-                    <div className="h-64 bg-slate-50 dark:bg-slate-800 rounded-lg flex items-center justify-center">
-                      <div className="text-center text-slate-500 dark:text-slate-400">
-                        <p>Mapa de calor indisponível na versão demo</p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                
-                <div>
-                  <h3 className="font-medium text-lg mb-4">Tipos de Investidores</h3>
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    <div className="bg-slate-50 dark:bg-slate-800 rounded-lg p-4">
-                      <p className="font-medium mb-1">Pessoa Física</p>
-                      <div className="w-full h-4 bg-slate-200 dark:bg-slate-700 rounded-full overflow-hidden">
-                        <div 
-                          className="h-full bg-brand-blue-500 rounded-full" 
-                          style={{ width: '82%' }}
-                        />
-                      </div>
-                      <div className="flex justify-between mt-1 text-sm">
-                        <span>82%</span>
-                        <span>116 investidores</span>
-                      </div>
-                    </div>
-                    
-                    <div className="bg-slate-50 dark:bg-slate-800 rounded-lg p-4">
-                      <p className="font-medium mb-1">Pessoa Jurídica</p>
-                      <div className="w-full h-4 bg-slate-200 dark:bg-slate-700 rounded-full overflow-hidden">
-                        <div 
-                          className="h-full bg-brand-green-500 rounded-full" 
-                          style={{ width: '13%' }}
-                        />
-                      </div>
-                      <div className="flex justify-between mt-1 text-sm">
-                        <span>13%</span>
-                        <span>19 investidores</span>
-                      </div>
-                    </div>
-                    
-                    <div className="bg-slate-50 dark:bg-slate-800 rounded-lg p-4">
-                      <p className="font-medium mb-1">Institucional</p>
-                      <div className="w-full h-4 bg-slate-200 dark:bg-slate-700 rounded-full overflow-hidden">
-                        <div 
-                          className="h-full bg-purple-500 rounded-full" 
-                          style={{ width: '5%' }}
-                        />
-                      </div>
-                      <div className="flex justify-between mt-1 text-sm">
-                        <span>5%</span>
-                        <span>7 investidores</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
+          <TabsContent value="investors">
+            <InvestorsTab companyData={companyData} />
           </TabsContent>
         </Tabs>
       </div>
