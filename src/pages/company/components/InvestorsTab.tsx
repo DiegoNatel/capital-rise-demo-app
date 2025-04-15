@@ -6,6 +6,14 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 
 interface InvestorsTabProps {
   companyData: any;
@@ -40,85 +48,85 @@ const InvestorsTab = ({ companyData }: InvestorsTabProps) => {
           <div>
             <h3 className="font-medium text-lg mb-4">Cap Table</h3>
             <div className="bg-white dark:bg-slate-800 rounded-lg border border-slate-200 dark:border-slate-700 overflow-hidden">
-              <table className="w-full">
-                <thead>
-                  <tr className="bg-slate-50 dark:bg-slate-700">
-                    <th className="text-left p-3 text-sm font-medium">Acionista</th>
-                    <th className="text-right p-3 text-sm font-medium">Percentual</th>
-                    <th className="text-right p-3 text-sm font-medium">Valor</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr className="border-t border-slate-200 dark:border-slate-700">
-                    <td className="p-3">Fundadores</td>
-                    <td className="text-right p-3">65%</td>
-                    <td className="text-right p-3">R$ {(companyData.valuation * 0.65).toLocaleString()}</td>
-                  </tr>
-                  <tr className="border-t border-slate-200 dark:border-slate-700">
-                    <td className="p-3">Investidores Anjo</td>
-                    <td className="text-right p-3">15%</td>
-                    <td className="text-right p-3">R$ {(companyData.valuation * 0.15).toLocaleString()}</td>
-                  </tr>
-                  <tr className="border-t border-slate-200 dark:border-slate-700">
-                    <td className="p-3">Tokenholders</td>
-                    <td className="text-right p-3">12%</td>
-                    <td className="text-right p-3">R$ {(companyData.valuation * 0.12).toLocaleString()}</td>
-                  </tr>
-                  <tr className="border-t border-slate-200 dark:border-slate-700">
-                    <td className="p-3">Pool de Opções</td>
-                    <td className="text-right p-3">8%</td>
-                    <td className="text-right p-3">R$ {(companyData.valuation * 0.08).toLocaleString()}</td>
-                  </tr>
-                </tbody>
-              </table>
+              <Table>
+                <TableHeader>
+                  <TableRow className="bg-slate-50 dark:bg-slate-700">
+                    <TableHead>Acionista</TableHead>
+                    <TableHead className="text-right">Percentual</TableHead>
+                    <TableHead className="text-right">Valor</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  <TableRow>
+                    <TableCell>Fundadores</TableCell>
+                    <TableCell className="text-right">65%</TableCell>
+                    <TableCell className="text-right">R$ {(companyData.valuation * 0.65).toLocaleString()}</TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell>Investidores Anjo</TableCell>
+                    <TableCell className="text-right">15%</TableCell>
+                    <TableCell className="text-right">R$ {(companyData.valuation * 0.15).toLocaleString()}</TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell>Tokenholders</TableCell>
+                    <TableCell className="text-right">12%</TableCell>
+                    <TableCell className="text-right">R$ {(companyData.valuation * 0.12).toLocaleString()}</TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell>Pool de Opções</TableCell>
+                    <TableCell className="text-right">8%</TableCell>
+                    <TableCell className="text-right">R$ {(companyData.valuation * 0.08).toLocaleString()}</TableCell>
+                  </TableRow>
+                </TableBody>
+              </Table>
             </div>
           </div>
           
           <div>
             <h3 className="font-medium text-lg mb-4">Principais Investidores</h3>
             <div className="bg-white dark:bg-slate-800 rounded-lg border border-slate-200 dark:border-slate-700 overflow-hidden">
-              <table className="w-full">
-                <thead>
-                  <tr className="bg-slate-50 dark:bg-slate-700">
-                    <th className="text-left p-3 text-sm font-medium">Investidor</th>
-                    <th className="text-right p-3 text-sm font-medium">Participação</th>
-                    <th className="text-right p-3 text-sm font-medium">Valor Investido</th>
-                    <th className="text-right p-3 text-sm font-medium">Data de Entrada</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr className="border-t border-slate-200 dark:border-slate-700">
-                    <td className="p-3">Renato Freitas</td>
-                    <td className="text-right p-3">5.2%</td>
-                    <td className="text-right p-3">R$ 780.000</td>
-                    <td className="text-right p-3">12/03/2023</td>
-                  </tr>
-                  <tr className="border-t border-slate-200 dark:border-slate-700">
-                    <td className="p-3">Fundo Inovação Capital</td>
-                    <td className="text-right p-3">4.8%</td>
-                    <td className="text-right p-3">R$ 720.000</td>
-                    <td className="text-right p-3">28/03/2023</td>
-                  </tr>
-                  <tr className="border-t border-slate-200 dark:border-slate-700">
-                    <td className="p-3">André Maciel</td>
-                    <td className="text-right p-3">3.5%</td>
-                    <td className="text-right p-3">R$ 525.000</td>
-                    <td className="text-right p-3">15/04/2023</td>
-                  </tr>
-                  <tr className="border-t border-slate-200 dark:border-slate-700">
-                    <td className="p-3">Startup Brasil Ventures</td>
-                    <td className="text-right p-3">3.2%</td>
-                    <td className="text-right p-3">R$ 480.000</td>
-                    <td className="text-right p-3">07/05/2023</td>
-                  </tr>
-                  <tr className="border-t border-slate-200 dark:border-slate-700">
-                    <td className="p-3">Carolina Medeiros</td>
-                    <td className="text-right p-3">2.8%</td>
-                    <td className="text-right p-3">R$ 420.000</td>
-                    <td className="text-right p-3">22/05/2023</td>
-                  </tr>
-                </tbody>
-              </table>
+              <Table>
+                <TableHeader>
+                  <TableRow className="bg-slate-50 dark:bg-slate-700">
+                    <TableHead>Investidor</TableHead>
+                    <TableHead className="text-right">Participação</TableHead>
+                    <TableHead className="text-right">Valor Investido</TableHead>
+                    <TableHead className="text-right">Data de Entrada</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  <TableRow>
+                    <TableCell>Renato Freitas</TableCell>
+                    <TableCell className="text-right">5.2%</TableCell>
+                    <TableCell className="text-right">R$ 780.000</TableCell>
+                    <TableCell className="text-right">12/03/2023</TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell>Fundo Inovação Capital</TableCell>
+                    <TableCell className="text-right">4.8%</TableCell>
+                    <TableCell className="text-right">R$ 720.000</TableCell>
+                    <TableCell className="text-right">28/03/2023</TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell>André Maciel</TableCell>
+                    <TableCell className="text-right">3.5%</TableCell>
+                    <TableCell className="text-right">R$ 525.000</TableCell>
+                    <TableCell className="text-right">15/04/2023</TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell>Startup Brasil Ventures</TableCell>
+                    <TableCell className="text-right">3.2%</TableCell>
+                    <TableCell className="text-right">R$ 480.000</TableCell>
+                    <TableCell className="text-right">07/05/2023</TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell>Carolina Medeiros</TableCell>
+                    <TableCell className="text-right">2.8%</TableCell>
+                    <TableCell className="text-right">R$ 420.000</TableCell>
+                    <TableCell className="text-right">22/05/2023</TableCell>
+                  </TableRow>
+                </TableBody>
+              </Table>
             </div>
           </div>
           

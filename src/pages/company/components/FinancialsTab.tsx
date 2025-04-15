@@ -15,6 +15,14 @@ import {
   TabsList,
   TabsTrigger,
 } from "@/components/ui/tabs";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 
 interface FinancialsTabProps {
   companyData: any;
@@ -51,102 +59,102 @@ const FinancialsTab = ({ companyData }: FinancialsTabProps) => {
             <TabsContent value="income">
               <h3 className="font-medium text-lg mb-4">Demonstrativo de Resultados</h3>
               <div className="bg-white dark:bg-slate-800 rounded-lg border border-slate-200 dark:border-slate-700 overflow-hidden">
-                <table className="w-full">
-                  <thead>
-                    <tr className="bg-slate-50 dark:bg-slate-700">
-                      <th className="text-left p-3 text-sm font-medium">Item</th>
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead>Item</TableHead>
                       {companyData.financials.years.map((year, index) => (
-                        <th key={index} className="text-right p-3 text-sm font-medium">{year}</th>
+                        <TableHead key={index} className="text-right">{year}</TableHead>
                       ))}
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr className="border-t border-slate-200 dark:border-slate-700">
-                      <td className="p-3 font-medium">Receita Bruta</td>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    <TableRow>
+                      <TableCell className="font-medium">Receita Bruta</TableCell>
                       {companyData.financials.revenue.map((value, index) => (
-                        <td key={index} className="text-right p-3">R$ {value.toLocaleString()}</td>
+                        <TableCell key={index} className="text-right">R$ {value.toLocaleString()}</TableCell>
                       ))}
-                    </tr>
-                    <tr className="border-t border-slate-200 dark:border-slate-700">
-                      <td className="p-3">(-) Impostos sobre vendas</td>
+                    </TableRow>
+                    <TableRow>
+                      <TableCell>(-) Impostos sobre vendas</TableCell>
                       {companyData.financials.revenue.map((value, index) => (
-                        <td key={index} className="text-right p-3">R$ {Math.round(value * 0.12).toLocaleString()}</td>
+                        <TableCell key={index} className="text-right">R$ {Math.round(value * 0.12).toLocaleString()}</TableCell>
                       ))}
-                    </tr>
-                    <tr className="border-t border-slate-200 dark:border-slate-700">
-                      <td className="p-3">(-) Devoluções e abatimentos</td>
+                    </TableRow>
+                    <TableRow>
+                      <TableCell>(-) Devoluções e abatimentos</TableCell>
                       {companyData.financials.revenue.map((value, index) => (
-                        <td key={index} className="text-right p-3">R$ {Math.round(value * 0.03).toLocaleString()}</td>
+                        <TableCell key={index} className="text-right">R$ {Math.round(value * 0.03).toLocaleString()}</TableCell>
                       ))}
-                    </tr>
-                    <tr className="border-t border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800">
-                      <td className="p-3 font-medium">Receita Líquida</td>
+                    </TableRow>
+                    <TableRow className="bg-slate-50 dark:bg-slate-800">
+                      <TableCell className="font-medium">Receita Líquida</TableCell>
                       {companyData.financials.revenue.map((value, index) => (
-                        <td key={index} className="text-right p-3 font-medium">R$ {Math.round(value * 0.85).toLocaleString()}</td>
+                        <TableCell key={index} className="text-right font-medium">R$ {Math.round(value * 0.85).toLocaleString()}</TableCell>
                       ))}
-                    </tr>
-                    <tr className="border-t border-slate-200 dark:border-slate-700">
-                      <td className="p-3">(-) Custo dos produtos/serviços</td>
+                    </TableRow>
+                    <TableRow>
+                      <TableCell>(-) Custo dos produtos/serviços</TableCell>
                       {companyData.financials.revenue.map((value, index) => (
-                        <td key={index} className="text-right p-3">R$ {Math.round(value * 0.35).toLocaleString()}</td>
+                        <TableCell key={index} className="text-right">R$ {Math.round(value * 0.35).toLocaleString()}</TableCell>
                       ))}
-                    </tr>
-                    <tr className="border-t border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800">
-                      <td className="p-3 font-medium">Lucro Bruto</td>
+                    </TableRow>
+                    <TableRow className="bg-slate-50 dark:bg-slate-800">
+                      <TableCell className="font-medium">Lucro Bruto</TableCell>
                       {companyData.financials.revenue.map((value, index) => (
-                        <td key={index} className="text-right p-3 font-medium">R$ {Math.round(value * 0.5).toLocaleString()}</td>
+                        <TableCell key={index} className="text-right font-medium">R$ {Math.round(value * 0.5).toLocaleString()}</TableCell>
                       ))}
-                    </tr>
-                    <tr className="border-t border-slate-200 dark:border-slate-700">
-                      <td className="p-3">(-) Despesas operacionais</td>
+                    </TableRow>
+                    <TableRow>
+                      <TableCell>(-) Despesas operacionais</TableCell>
                       {companyData.financials.revenue.map((value, index) => (
-                        <td key={index} className="text-right p-3">R$ {Math.round(value * 0.25).toLocaleString()}</td>
+                        <TableCell key={index} className="text-right">R$ {Math.round(value * 0.25).toLocaleString()}</TableCell>
                       ))}
-                    </tr>
-                    <tr className="border-t border-slate-200 dark:border-slate-700">
-                      <td className="p-3">(-) Despesas com vendas</td>
+                    </TableRow>
+                    <TableRow>
+                      <TableCell>(-) Despesas com vendas</TableCell>
                       {companyData.financials.revenue.map((value, index) => (
-                        <td key={index} className="text-right p-3">R$ {Math.round(value * 0.1).toLocaleString()}</td>
+                        <TableCell key={index} className="text-right">R$ {Math.round(value * 0.1).toLocaleString()}</TableCell>
                       ))}
-                    </tr>
-                    <tr className="border-t border-slate-200 dark:border-slate-700">
-                      <td className="p-3">(-) Despesas administrativas</td>
+                    </TableRow>
+                    <TableRow>
+                      <TableCell>(-) Despesas administrativas</TableCell>
                       {companyData.financials.revenue.map((value, index) => (
-                        <td key={index} className="text-right p-3">R$ {Math.round(value * 0.15).toLocaleString()}</td>
+                        <TableCell key={index} className="text-right">R$ {Math.round(value * 0.15).toLocaleString()}</TableCell>
                       ))}
-                    </tr>
-                    <tr className="border-t border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800">
-                      <td className="p-3 font-medium">EBITDA</td>
+                    </TableRow>
+                    <TableRow className="bg-slate-50 dark:bg-slate-800">
+                      <TableCell className="font-medium">EBITDA</TableCell>
                       {companyData.financials.revenue.map((value, index) => (
-                        <td key={index} className="text-right p-3 font-medium">R$ {Math.round(value * 0.25).toLocaleString()}</td>
+                        <TableCell key={index} className="text-right font-medium">R$ {Math.round(value * 0.25).toLocaleString()}</TableCell>
                       ))}
-                    </tr>
-                    <tr className="border-t border-slate-200 dark:border-slate-700">
-                      <td className="p-3">(-) Depreciação e amortização</td>
+                    </TableRow>
+                    <TableRow>
+                      <TableCell>(-) Depreciação e amortização</TableCell>
                       {companyData.financials.revenue.map((value, index) => (
-                        <td key={index} className="text-right p-3">R$ {Math.round(value * 0.03).toLocaleString()}</td>
+                        <TableCell key={index} className="text-right">R$ {Math.round(value * 0.03).toLocaleString()}</TableCell>
                       ))}
-                    </tr>
-                    <tr className="border-t border-slate-200 dark:border-slate-700">
-                      <td className="p-3">(+/-) Resultado financeiro</td>
+                    </TableRow>
+                    <TableRow>
+                      <TableCell>(+/-) Resultado financeiro</TableCell>
                       {companyData.financials.revenue.map((value, index) => (
-                        <td key={index} className="text-right p-3 text-red-500">R$ -{Math.round(value * 0.02).toLocaleString()}</td>
+                        <TableCell key={index} className="text-right text-red-500">R$ -{Math.round(value * 0.02).toLocaleString()}</TableCell>
                       ))}
-                    </tr>
-                    <tr className="border-t border-slate-200 dark:border-slate-700">
-                      <td className="p-3">(-) IR e CSLL</td>
+                    </TableRow>
+                    <TableRow>
+                      <TableCell>(-) IR e CSLL</TableCell>
                       {companyData.financials.revenue.map((value, index) => (
-                        <td key={index} className="text-right p-3">R$ {Math.round(value * 0.05).toLocaleString()}</td>
+                        <TableCell key={index} className="text-right">R$ {Math.round(value * 0.05).toLocaleString()}</TableCell>
                       ))}
-                    </tr>
-                    <tr className="border-t border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800">
-                      <td className="p-3 font-semibold">Lucro Líquido</td>
+                    </TableRow>
+                    <TableRow className="bg-slate-50 dark:bg-slate-800">
+                      <TableCell className="font-semibold">Lucro Líquido</TableCell>
                       {companyData.financials.profit.map((value, index) => (
-                        <td key={index} className="text-right p-3 font-semibold">R$ {value.toLocaleString()}</td>
+                        <TableCell key={index} className="text-right font-semibold">R$ {value.toLocaleString()}</TableCell>
                       ))}
-                    </tr>
-                  </tbody>
-                </table>
+                    </TableRow>
+                  </TableBody>
+                </Table>
               </div>
             </TabsContent>
             
@@ -154,139 +162,139 @@ const FinancialsTab = ({ companyData }: FinancialsTabProps) => {
             <TabsContent value="balance">
               <h3 className="font-medium text-lg mb-4">Balanço Patrimonial</h3>
               <div className="bg-white dark:bg-slate-800 rounded-lg border border-slate-200 dark:border-slate-700 overflow-hidden">
-                <table className="w-full">
-                  <thead>
-                    <tr className="bg-slate-50 dark:bg-slate-700">
-                      <th className="text-left p-3 text-sm font-medium">Item</th>
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead>Item</TableHead>
                       {companyData.financials.years.map((year, index) => (
-                        <th key={index} className="text-right p-3 text-sm font-medium">{year}</th>
+                        <TableHead key={index} className="text-right">{year}</TableHead>
                       ))}
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr className="border-t border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800">
-                      <td className="p-3 font-semibold">ATIVO</td>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    <TableRow className="bg-slate-50 dark:bg-slate-800">
+                      <TableCell className="font-semibold">ATIVO</TableCell>
                       {companyData.financials.years.map((year, index) => (
-                        <td key={index} className="text-right p-3 font-semibold"></td>
+                        <TableCell key={index} className="text-right font-semibold"></TableCell>
                       ))}
-                    </tr>
-                    <tr className="border-t border-slate-200 dark:border-slate-700">
-                      <td className="p-3 font-medium">Ativo Circulante</td>
+                    </TableRow>
+                    <TableRow>
+                      <TableCell className="font-medium">Ativo Circulante</TableCell>
                       {companyData.financials.revenue.map((value, index) => (
-                        <td key={index} className="text-right p-3">R$ {Math.round(value * 0.4).toLocaleString()}</td>
+                        <TableCell key={index} className="text-right">R$ {Math.round(value * 0.4).toLocaleString()}</TableCell>
                       ))}
-                    </tr>
-                    <tr className="border-t border-slate-200 dark:border-slate-700">
-                      <td className="p-3 pl-6">Caixa e equivalentes</td>
+                    </TableRow>
+                    <TableRow>
+                      <TableCell className="pl-6">Caixa e equivalentes</TableCell>
                       {companyData.financials.revenue.map((value, index) => (
-                        <td key={index} className="text-right p-3">R$ {Math.round(value * 0.15).toLocaleString()}</td>
+                        <TableCell key={index} className="text-right">R$ {Math.round(value * 0.15).toLocaleString()}</TableCell>
                       ))}
-                    </tr>
-                    <tr className="border-t border-slate-200 dark:border-slate-700">
-                      <td className="p-3 pl-6">Contas a receber</td>
+                    </TableRow>
+                    <TableRow>
+                      <TableCell className="pl-6">Contas a receber</TableCell>
                       {companyData.financials.revenue.map((value, index) => (
-                        <td key={index} className="text-right p-3">R$ {Math.round(value * 0.18).toLocaleString()}</td>
+                        <TableCell key={index} className="text-right">R$ {Math.round(value * 0.18).toLocaleString()}</TableCell>
                       ))}
-                    </tr>
-                    <tr className="border-t border-slate-200 dark:border-slate-700">
-                      <td className="p-3 pl-6">Estoques</td>
+                    </TableRow>
+                    <TableRow>
+                      <TableCell className="pl-6">Estoques</TableCell>
                       {companyData.financials.revenue.map((value, index) => (
-                        <td key={index} className="text-right p-3">R$ {Math.round(value * 0.07).toLocaleString()}</td>
+                        <TableCell key={index} className="text-right">R$ {Math.round(value * 0.07).toLocaleString()}</TableCell>
                       ))}
-                    </tr>
-                    <tr className="border-t border-slate-200 dark:border-slate-700">
-                      <td className="p-3 font-medium">Ativo Não Circulante</td>
+                    </TableRow>
+                    <TableRow>
+                      <TableCell className="font-medium">Ativo Não Circulante</TableCell>
                       {companyData.financials.revenue.map((value, index) => (
-                        <td key={index} className="text-right p-3">R$ {Math.round(value * 0.6).toLocaleString()}</td>
+                        <TableCell key={index} className="text-right">R$ {Math.round(value * 0.6).toLocaleString()}</TableCell>
                       ))}
-                    </tr>
-                    <tr className="border-t border-slate-200 dark:border-slate-700">
-                      <td className="p-3 pl-6">Imobilizado</td>
+                    </TableRow>
+                    <TableRow>
+                      <TableCell className="pl-6">Imobilizado</TableCell>
                       {companyData.financials.revenue.map((value, index) => (
-                        <td key={index} className="text-right p-3">R$ {Math.round(value * 0.4).toLocaleString()}</td>
+                        <TableCell key={index} className="text-right">R$ {Math.round(value * 0.4).toLocaleString()}</TableCell>
                       ))}
-                    </tr>
-                    <tr className="border-t border-slate-200 dark:border-slate-700">
-                      <td className="p-3 pl-6">Intangível</td>
+                    </TableRow>
+                    <TableRow>
+                      <TableCell className="pl-6">Intangível</TableCell>
                       {companyData.financials.revenue.map((value, index) => (
-                        <td key={index} className="text-right p-3">R$ {Math.round(value * 0.2).toLocaleString()}</td>
+                        <TableCell key={index} className="text-right">R$ {Math.round(value * 0.2).toLocaleString()}</TableCell>
                       ))}
-                    </tr>
-                    <tr className="border-t border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800">
-                      <td className="p-3 font-semibold">TOTAL DO ATIVO</td>
+                    </TableRow>
+                    <TableRow className="bg-slate-50 dark:bg-slate-800">
+                      <TableCell className="font-semibold">TOTAL DO ATIVO</TableCell>
                       {companyData.financials.revenue.map((value, index) => (
-                        <td key={index} className="text-right p-3 font-semibold">R$ {Math.round(value * 1.0).toLocaleString()}</td>
+                        <TableCell key={index} className="text-right font-semibold">R$ {Math.round(value * 1.0).toLocaleString()}</TableCell>
                       ))}
-                    </tr>
+                    </TableRow>
                     
-                    <tr className="border-t border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800">
-                      <td className="p-3 font-semibold">PASSIVO E PATRIMÔNIO LÍQUIDO</td>
+                    <TableRow className="bg-slate-50 dark:bg-slate-800">
+                      <TableCell className="font-semibold">PASSIVO E PATRIMÔNIO LÍQUIDO</TableCell>
                       {companyData.financials.years.map((year, index) => (
-                        <td key={index} className="text-right p-3 font-semibold"></td>
+                        <TableCell key={index} className="text-right font-semibold"></TableCell>
                       ))}
-                    </tr>
-                    <tr className="border-t border-slate-200 dark:border-slate-700">
-                      <td className="p-3 font-medium">Passivo Circulante</td>
+                    </TableRow>
+                    <TableRow>
+                      <TableCell className="font-medium">Passivo Circulante</TableCell>
                       {companyData.financials.revenue.map((value, index) => (
-                        <td key={index} className="text-right p-3">R$ {Math.round(value * 0.25).toLocaleString()}</td>
+                        <TableCell key={index} className="text-right">R$ {Math.round(value * 0.25).toLocaleString()}</TableCell>
                       ))}
-                    </tr>
-                    <tr className="border-t border-slate-200 dark:border-slate-700">
-                      <td className="p-3 pl-6">Fornecedores</td>
+                    </TableRow>
+                    <TableRow>
+                      <TableCell className="pl-6">Fornecedores</TableCell>
                       {companyData.financials.revenue.map((value, index) => (
-                        <td key={index} className="text-right p-3">R$ {Math.round(value * 0.12).toLocaleString()}</td>
+                        <TableCell key={index} className="text-right">R$ {Math.round(value * 0.12).toLocaleString()}</TableCell>
                       ))}
-                    </tr>
-                    <tr className="border-t border-slate-200 dark:border-slate-700">
-                      <td className="p-3 pl-6">Empréstimos de curto prazo</td>
+                    </TableRow>
+                    <TableRow>
+                      <TableCell className="pl-6">Empréstimos de curto prazo</TableCell>
                       {companyData.financials.revenue.map((value, index) => (
-                        <td key={index} className="text-right p-3">R$ {Math.round(value * 0.08).toLocaleString()}</td>
+                        <TableCell key={index} className="text-right">R$ {Math.round(value * 0.08).toLocaleString()}</TableCell>
                       ))}
-                    </tr>
-                    <tr className="border-t border-slate-200 dark:border-slate-700">
-                      <td className="p-3 pl-6">Obrigações tributárias</td>
+                    </TableRow>
+                    <TableRow>
+                      <TableCell className="pl-6">Obrigações tributárias</TableCell>
                       {companyData.financials.revenue.map((value, index) => (
-                        <td key={index} className="text-right p-3">R$ {Math.round(value * 0.05).toLocaleString()}</td>
+                        <TableCell key={index} className="text-right">R$ {Math.round(value * 0.05).toLocaleString()}</TableCell>
                       ))}
-                    </tr>
-                    <tr className="border-t border-slate-200 dark:border-slate-700">
-                      <td className="p-3 font-medium">Passivo Não Circulante</td>
+                    </TableRow>
+                    <TableRow>
+                      <TableCell className="font-medium">Passivo Não Circulante</TableCell>
                       {companyData.financials.revenue.map((value, index) => (
-                        <td key={index} className="text-right p-3">R$ {Math.round(value * 0.35).toLocaleString()}</td>
+                        <TableCell key={index} className="text-right">R$ {Math.round(value * 0.35).toLocaleString()}</TableCell>
                       ))}
-                    </tr>
-                    <tr className="border-t border-slate-200 dark:border-slate-700">
-                      <td className="p-3 pl-6">Empréstimos de longo prazo</td>
+                    </TableRow>
+                    <TableRow>
+                      <TableCell className="pl-6">Empréstimos de longo prazo</TableCell>
                       {companyData.financials.revenue.map((value, index) => (
-                        <td key={index} className="text-right p-3">R$ {Math.round(value * 0.35).toLocaleString()}</td>
+                        <TableCell key={index} className="text-right">R$ {Math.round(value * 0.35).toLocaleString()}</TableCell>
                       ))}
-                    </tr>
-                    <tr className="border-t border-slate-200 dark:border-slate-700">
-                      <td className="p-3 font-medium">Patrimônio Líquido</td>
+                    </TableRow>
+                    <TableRow>
+                      <TableCell className="font-medium">Patrimônio Líquido</TableCell>
                       {companyData.financials.revenue.map((value, index) => (
-                        <td key={index} className="text-right p-3">R$ {Math.round(value * 0.4).toLocaleString()}</td>
+                        <TableCell key={index} className="text-right">R$ {Math.round(value * 0.4).toLocaleString()}</TableCell>
                       ))}
-                    </tr>
-                    <tr className="border-t border-slate-200 dark:border-slate-700">
-                      <td className="p-3 pl-6">Capital social</td>
+                    </TableRow>
+                    <TableRow>
+                      <TableCell className="pl-6">Capital social</TableCell>
                       {companyData.financials.revenue.map((value, index) => (
-                        <td key={index} className="text-right p-3">R$ {Math.round(value * 0.25).toLocaleString()}</td>
+                        <TableCell key={index} className="text-right">R$ {Math.round(value * 0.25).toLocaleString()}</TableCell>
                       ))}
-                    </tr>
-                    <tr className="border-t border-slate-200 dark:border-slate-700">
-                      <td className="p-3 pl-6">Reservas de lucros</td>
+                    </TableRow>
+                    <TableRow>
+                      <TableCell className="pl-6">Reservas de lucros</TableCell>
                       {companyData.financials.revenue.map((value, index) => (
-                        <td key={index} className="text-right p-3">R$ {Math.round(value * 0.15).toLocaleString()}</td>
+                        <TableCell key={index} className="text-right">R$ {Math.round(value * 0.15).toLocaleString()}</TableCell>
                       ))}
-                    </tr>
-                    <tr className="border-t border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800">
-                      <td className="p-3 font-semibold">TOTAL DO PASSIVO E PATRIMÔNIO LÍQUIDO</td>
+                    </TableRow>
+                    <TableRow className="bg-slate-50 dark:bg-slate-800">
+                      <TableCell className="font-semibold">TOTAL DO PASSIVO E PATRIMÔNIO LÍQUIDO</TableCell>
                       {companyData.financials.revenue.map((value, index) => (
-                        <td key={index} className="text-right p-3 font-semibold">R$ {Math.round(value * 1.0).toLocaleString()}</td>
+                        <TableCell key={index} className="text-right font-semibold">R$ {Math.round(value * 1.0).toLocaleString()}</TableCell>
                       ))}
-                    </tr>
-                  </tbody>
-                </table>
+                    </TableRow>
+                  </TableBody>
+                </Table>
               </div>
             </TabsContent>
             
@@ -294,126 +302,126 @@ const FinancialsTab = ({ companyData }: FinancialsTabProps) => {
             <TabsContent value="cashflow">
               <h3 className="font-medium text-lg mb-4">Demonstrativo de Fluxo de Caixa</h3>
               <div className="bg-white dark:bg-slate-800 rounded-lg border border-slate-200 dark:border-slate-700 overflow-hidden">
-                <table className="w-full">
-                  <thead>
-                    <tr className="bg-slate-50 dark:bg-slate-700">
-                      <th className="text-left p-3 text-sm font-medium">Item</th>
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead>Item</TableHead>
                       {companyData.financials.years.map((year, index) => (
-                        <th key={index} className="text-right p-3 text-sm font-medium">{year}</th>
+                        <TableHead key={index} className="text-right">{year}</TableHead>
                       ))}
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr className="border-t border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800">
-                      <td className="p-3 font-medium">Fluxo de Caixa Operacional</td>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    <TableRow className="bg-slate-50 dark:bg-slate-800">
+                      <TableCell className="font-medium">Fluxo de Caixa Operacional</TableCell>
                       {companyData.financials.years.map((year, index) => (
-                        <td key={index} className="text-right p-3 font-medium"></td>
+                        <TableCell key={index} className="text-right font-medium"></TableCell>
                       ))}
-                    </tr>
-                    <tr className="border-t border-slate-200 dark:border-slate-700">
-                      <td className="p-3">Lucro líquido</td>
+                    </TableRow>
+                    <TableRow>
+                      <TableCell>Lucro líquido</TableCell>
                       {companyData.financials.profit.map((value, index) => (
-                        <td key={index} className="text-right p-3">R$ {value.toLocaleString()}</td>
+                        <TableCell key={index} className="text-right">R$ {value.toLocaleString()}</TableCell>
                       ))}
-                    </tr>
-                    <tr className="border-t border-slate-200 dark:border-slate-700">
-                      <td className="p-3">(+) Depreciação e amortização</td>
+                    </TableRow>
+                    <TableRow>
+                      <TableCell>(+) Depreciação e amortização</TableCell>
                       {companyData.financials.revenue.map((value, index) => (
-                        <td key={index} className="text-right p-3">R$ {Math.round(value * 0.03).toLocaleString()}</td>
+                        <TableCell key={index} className="text-right">R$ {Math.round(value * 0.03).toLocaleString()}</TableCell>
                       ))}
-                    </tr>
-                    <tr className="border-t border-slate-200 dark:border-slate-700">
-                      <td className="p-3">(+/-) Variação no capital de giro</td>
+                    </TableRow>
+                    <TableRow>
+                      <TableCell>(+/-) Variação no capital de giro</TableCell>
                       {companyData.financials.revenue.map((value, index) => (
-                        <td key={index} className="text-right p-3 text-red-500">R$ -{Math.round(value * 0.04).toLocaleString()}</td>
+                        <TableCell key={index} className="text-right text-red-500">R$ -{Math.round(value * 0.04).toLocaleString()}</TableCell>
                       ))}
-                    </tr>
-                    <tr className="border-t border-slate-200 dark:border-slate-700">
-                      <td className="p-3 font-medium">Caixa líquido das atividades operacionais</td>
+                    </TableRow>
+                    <TableRow>
+                      <TableCell className="font-medium">Caixa líquido das atividades operacionais</TableCell>
                       {companyData.financials.profit.map((value, index) => (
-                        <td key={index} className="text-right p-3 font-medium">R$ {Math.round(value * 1.04).toLocaleString()}</td>
+                        <TableCell key={index} className="text-right font-medium">R$ {Math.round(value * 1.04).toLocaleString()}</TableCell>
                       ))}
-                    </tr>
+                    </TableRow>
                     
-                    <tr className="border-t border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800">
-                      <td className="p-3 font-medium">Fluxo de Caixa de Investimento</td>
+                    <TableRow className="bg-slate-50 dark:bg-slate-800">
+                      <TableCell className="font-medium">Fluxo de Caixa de Investimento</TableCell>
                       {companyData.financials.years.map((year, index) => (
-                        <td key={index} className="text-right p-3 font-medium"></td>
+                        <TableCell key={index} className="text-right font-medium"></TableCell>
                       ))}
-                    </tr>
-                    <tr className="border-t border-slate-200 dark:border-slate-700">
-                      <td className="p-3">(-) Aquisição de imobilizado</td>
+                    </TableRow>
+                    <TableRow>
+                      <TableCell>(-) Aquisição de imobilizado</TableCell>
                       {companyData.financials.revenue.map((value, index) => (
-                        <td key={index} className="text-right p-3 text-red-500">R$ -{Math.round(value * 0.08).toLocaleString()}</td>
+                        <TableCell key={index} className="text-right text-red-500">R$ -{Math.round(value * 0.08).toLocaleString()}</TableCell>
                       ))}
-                    </tr>
-                    <tr className="border-t border-slate-200 dark:border-slate-700">
-                      <td className="p-3">(-) Investimentos em intangíveis</td>
+                    </TableRow>
+                    <TableRow>
+                      <TableCell>(-) Investimentos em intangíveis</TableCell>
                       {companyData.financials.revenue.map((value, index) => (
-                        <td key={index} className="text-right p-3 text-red-500">R$ -{Math.round(value * 0.05).toLocaleString()}</td>
+                        <TableCell key={index} className="text-right text-red-500">R$ -{Math.round(value * 0.05).toLocaleString()}</TableCell>
                       ))}
-                    </tr>
-                    <tr className="border-t border-slate-200 dark:border-slate-700">
-                      <td className="p-3 font-medium">Caixa líquido das atividades de investimento</td>
+                    </TableRow>
+                    <TableRow>
+                      <TableCell className="font-medium">Caixa líquido das atividades de investimento</TableCell>
                       {companyData.financials.revenue.map((value, index) => (
-                        <td key={index} className="text-right p-3 font-medium text-red-500">R$ -{Math.round(value * 0.13).toLocaleString()}</td>
+                        <TableCell key={index} className="text-right font-medium text-red-500">R$ -{Math.round(value * 0.13).toLocaleString()}</TableCell>
                       ))}
-                    </tr>
+                    </TableRow>
                     
-                    <tr className="border-t border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800">
-                      <td className="p-3 font-medium">Fluxo de Caixa de Financiamento</td>
+                    <TableRow className="bg-slate-50 dark:bg-slate-800">
+                      <TableCell className="font-medium">Fluxo de Caixa de Financiamento</TableCell>
                       {companyData.financials.years.map((year, index) => (
-                        <td key={index} className="text-right p-3 font-medium"></td>
+                        <TableCell key={index} className="text-right font-medium"></TableCell>
                       ))}
-                    </tr>
-                    <tr className="border-t border-slate-200 dark:border-slate-700">
-                      <td className="p-3">(+) Captação de empréstimos</td>
+                    </TableRow>
+                    <TableRow>
+                      <TableCell>(+) Captação de empréstimos</TableCell>
                       {companyData.financials.revenue.map((value, index) => (
-                        <td key={index} className="text-right p-3">R$ {Math.round(value * 0.1).toLocaleString()}</td>
+                        <TableCell key={index} className="text-right">R$ {Math.round(value * 0.1).toLocaleString()}</TableCell>
                       ))}
-                    </tr>
-                    <tr className="border-t border-slate-200 dark:border-slate-700">
-                      <td className="p-3">(-) Amortização de empréstimos</td>
+                    </TableRow>
+                    <TableRow>
+                      <TableCell>(-) Amortização de empréstimos</TableCell>
                       {companyData.financials.revenue.map((value, index) => (
-                        <td key={index} className="text-right p-3 text-red-500">R$ -{Math.round(value * 0.07).toLocaleString()}</td>
+                        <TableCell key={index} className="text-right text-red-500">R$ -{Math.round(value * 0.07).toLocaleString()}</TableCell>
                       ))}
-                    </tr>
-                    <tr className="border-t border-slate-200 dark:border-slate-700">
-                      <td className="p-3">(-) Dividendos pagos</td>
+                    </TableRow>
+                    <TableRow>
+                      <TableCell>(-) Dividendos pagos</TableCell>
                       {companyData.financials.profit.map((value, index) => (
-                        <td key={index} className="text-right p-3 text-red-500">R$ -{Math.round(value * 0.3).toLocaleString()}</td>
+                        <TableCell key={index} className="text-right text-red-500">R$ -{Math.round(value * 0.3).toLocaleString()}</TableCell>
                       ))}
-                    </tr>
-                    <tr className="border-t border-slate-200 dark:border-slate-700">
-                      <td className="p-3 font-medium">Caixa líquido das atividades de financiamento</td>
+                    </TableRow>
+                    <TableRow>
+                      <TableCell className="font-medium">Caixa líquido das atividades de financiamento</TableCell>
                       {companyData.financials.profit.map((value, index) => (
-                        <td key={index} className="text-right p-3 font-medium text-red-500">R$ -{Math.round(value * 0.2).toLocaleString()}</td>
+                        <TableCell key={index} className="text-right font-medium text-red-500">R$ -{Math.round(value * 0.2).toLocaleString()}</TableCell>
                       ))}
-                    </tr>
+                    </TableRow>
                     
-                    <tr className="border-t border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800">
-                      <td className="p-3 font-semibold">Aumento/Redução do Caixa</td>
+                    <TableRow className="bg-slate-50 dark:bg-slate-800">
+                      <TableCell className="font-semibold">Aumento/Redução do Caixa</TableCell>
                       {companyData.financials.profit.map((value, index) => {
                         const operacional = value * 1.04;
                         const investimento = -companyData.financials.revenue[index] * 0.13;
                         const financiamento = -value * 0.2;
                         const total = operacional + investimento + financiamento;
                         return (
-                          <td key={index} className={`text-right p-3 font-semibold ${total >= 0 ? 'text-green-500' : 'text-red-500'}`}>
+                          <TableCell key={index} className={`text-right font-semibold ${total >= 0 ? 'text-green-500' : 'text-red-500'}`}>
                             {total >= 0 ? 'R$ ' : 'R$ -'}
                             {Math.abs(Math.round(total)).toLocaleString()}
-                          </td>
+                          </TableCell>
                         );
                       })}
-                    </tr>
-                    <tr className="border-t border-slate-200 dark:border-slate-700">
-                      <td className="p-3">Caixa no início do período</td>
+                    </TableRow>
+                    <TableRow>
+                      <TableCell>Caixa no início do período</TableCell>
                       {companyData.financials.revenue.map((value, index) => (
-                        <td key={index} className="text-right p-3">R$ {Math.round(value * 0.12).toLocaleString()}</td>
+                        <TableCell key={index} className="text-right">R$ {Math.round(value * 0.12).toLocaleString()}</TableCell>
                       ))}
-                    </tr>
-                    <tr className="border-t border-slate-200 dark:border-slate-700">
-                      <td className="p-3 font-medium">Caixa no fim do período</td>
+                    </TableRow>
+                    <TableRow>
+                      <TableCell className="font-medium">Caixa no fim do período</TableCell>
                       {companyData.financials.profit.map((value, index) => {
                         const operacional = value * 1.04;
                         const investimento = -companyData.financials.revenue[index] * 0.13;
@@ -422,14 +430,14 @@ const FinancialsTab = ({ companyData }: FinancialsTabProps) => {
                         const inicial = companyData.financials.revenue[index] * 0.12;
                         const final = inicial + variacao;
                         return (
-                          <td key={index} className="text-right p-3 font-medium">
+                          <TableCell key={index} className="text-right font-medium">
                             R$ {Math.round(final).toLocaleString()}
-                          </td>
+                          </TableCell>
                         );
                       })}
-                    </tr>
-                  </tbody>
-                </table>
+                    </TableRow>
+                  </TableBody>
+                </Table>
               </div>
             </TabsContent>
           </Tabs>
