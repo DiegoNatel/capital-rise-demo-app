@@ -38,52 +38,87 @@ const InvestorsTab = ({ companyData }: InvestorsTabProps) => {
           </div>
           
           <div>
-            <h3 className="font-medium text-lg mb-4">Distribuição Geográfica</h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div className="bg-white dark:bg-slate-800 rounded-lg border border-slate-200 dark:border-slate-700 overflow-hidden">
-                <table className="w-full">
-                  <thead>
-                    <tr className="bg-slate-50 dark:bg-slate-700">
-                      <th className="text-left p-3 text-sm font-medium">Região</th>
-                      <th className="text-right p-3 text-sm font-medium">Investidores</th>
-                      <th className="text-right p-3 text-sm font-medium">Percentual</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr className="border-t border-slate-200 dark:border-slate-700">
-                      <td className="p-3">Sudeste</td>
-                      <td className="text-right p-3">87</td>
-                      <td className="text-right p-3">61.3%</td>
-                    </tr>
-                    <tr className="border-t border-slate-200 dark:border-slate-700">
-                      <td className="p-3">Sul</td>
-                      <td className="text-right p-3">24</td>
-                      <td className="text-right p-3">16.9%</td>
-                    </tr>
-                    <tr className="border-t border-slate-200 dark:border-slate-700">
-                      <td className="p-3">Nordeste</td>
-                      <td className="text-right p-3">18</td>
-                      <td className="text-right p-3">12.7%</td>
-                    </tr>
-                    <tr className="border-t border-slate-200 dark:border-slate-700">
-                      <td className="p-3">Centro-Oeste</td>
-                      <td className="text-right p-3">9</td>
-                      <td className="text-right p-3">6.3%</td>
-                    </tr>
-                    <tr className="border-t border-slate-200 dark:border-slate-700">
-                      <td className="p-3">Norte</td>
-                      <td className="text-right p-3">4</td>
-                      <td className="text-right p-3">2.8%</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-              
-              <div className="h-64 bg-slate-50 dark:bg-slate-800 rounded-lg flex items-center justify-center">
-                <div className="text-center text-slate-500 dark:text-slate-400">
-                  <p>Mapa de calor indisponível na versão demo</p>
-                </div>
-              </div>
+            <h3 className="font-medium text-lg mb-4">Cap Table</h3>
+            <div className="bg-white dark:bg-slate-800 rounded-lg border border-slate-200 dark:border-slate-700 overflow-hidden">
+              <table className="w-full">
+                <thead>
+                  <tr className="bg-slate-50 dark:bg-slate-700">
+                    <th className="text-left p-3 text-sm font-medium">Acionista</th>
+                    <th className="text-right p-3 text-sm font-medium">Percentual</th>
+                    <th className="text-right p-3 text-sm font-medium">Valor</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr className="border-t border-slate-200 dark:border-slate-700">
+                    <td className="p-3">Fundadores</td>
+                    <td className="text-right p-3">65%</td>
+                    <td className="text-right p-3">R$ {(companyData.valuation * 0.65).toLocaleString()}</td>
+                  </tr>
+                  <tr className="border-t border-slate-200 dark:border-slate-700">
+                    <td className="p-3">Investidores Anjo</td>
+                    <td className="text-right p-3">15%</td>
+                    <td className="text-right p-3">R$ {(companyData.valuation * 0.15).toLocaleString()}</td>
+                  </tr>
+                  <tr className="border-t border-slate-200 dark:border-slate-700">
+                    <td className="p-3">Tokenholders</td>
+                    <td className="text-right p-3">12%</td>
+                    <td className="text-right p-3">R$ {(companyData.valuation * 0.12).toLocaleString()}</td>
+                  </tr>
+                  <tr className="border-t border-slate-200 dark:border-slate-700">
+                    <td className="p-3">Pool de Opções</td>
+                    <td className="text-right p-3">8%</td>
+                    <td className="text-right p-3">R$ {(companyData.valuation * 0.08).toLocaleString()}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          
+          <div>
+            <h3 className="font-medium text-lg mb-4">Principais Investidores</h3>
+            <div className="bg-white dark:bg-slate-800 rounded-lg border border-slate-200 dark:border-slate-700 overflow-hidden">
+              <table className="w-full">
+                <thead>
+                  <tr className="bg-slate-50 dark:bg-slate-700">
+                    <th className="text-left p-3 text-sm font-medium">Investidor</th>
+                    <th className="text-right p-3 text-sm font-medium">Participação</th>
+                    <th className="text-right p-3 text-sm font-medium">Valor Investido</th>
+                    <th className="text-right p-3 text-sm font-medium">Data de Entrada</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr className="border-t border-slate-200 dark:border-slate-700">
+                    <td className="p-3">Renato Freitas</td>
+                    <td className="text-right p-3">5.2%</td>
+                    <td className="text-right p-3">R$ 780.000</td>
+                    <td className="text-right p-3">12/03/2023</td>
+                  </tr>
+                  <tr className="border-t border-slate-200 dark:border-slate-700">
+                    <td className="p-3">Fundo Inovação Capital</td>
+                    <td className="text-right p-3">4.8%</td>
+                    <td className="text-right p-3">R$ 720.000</td>
+                    <td className="text-right p-3">28/03/2023</td>
+                  </tr>
+                  <tr className="border-t border-slate-200 dark:border-slate-700">
+                    <td className="p-3">André Maciel</td>
+                    <td className="text-right p-3">3.5%</td>
+                    <td className="text-right p-3">R$ 525.000</td>
+                    <td className="text-right p-3">15/04/2023</td>
+                  </tr>
+                  <tr className="border-t border-slate-200 dark:border-slate-700">
+                    <td className="p-3">Startup Brasil Ventures</td>
+                    <td className="text-right p-3">3.2%</td>
+                    <td className="text-right p-3">R$ 480.000</td>
+                    <td className="text-right p-3">07/05/2023</td>
+                  </tr>
+                  <tr className="border-t border-slate-200 dark:border-slate-700">
+                    <td className="p-3">Carolina Medeiros</td>
+                    <td className="text-right p-3">2.8%</td>
+                    <td className="text-right p-3">R$ 420.000</td>
+                    <td className="text-right p-3">22/05/2023</td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
           </div>
           
