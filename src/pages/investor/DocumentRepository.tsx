@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import MainLayout from "@/components/layout/MainLayout";
 import { 
@@ -31,6 +32,14 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 import DocumentList from "./components/documents/DocumentList";
 import VersionHistory from "./components/documents/VersionHistory";
 import AccessControl from "./components/documents/AccessControl";
@@ -41,6 +50,7 @@ const DocumentRepository = () => {
   const [activeTab, setActiveTab] = useState("financial");
   const [searchQuery, setSearchQuery] = useState("");
   const [category, setCategory] = useState("all");
+  const [activeManagementTool, setActiveManagementTool] = useState<string | null>(null);
 
   const filteredDocuments = investorDocuments.filter((doc) => {
     const matchesSearch = doc.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -50,6 +60,19 @@ const DocumentRepository = () => {
     
     return matchesSearch && matchesCategory && matchesTab;
   });
+
+  const renderManagementTool = () => {
+    switch (activeManagementTool) {
+      case "version-history":
+        return <VersionHistory documentId="doc-001" />;
+      case "access-control":
+        return <AccessControl />;
+      case "analytics":
+        return <DocumentAnalytics />;
+      default:
+        return null;
+    }
+  };
 
   return (
     <MainLayout>
@@ -102,22 +125,55 @@ const DocumentRepository = () => {
                 <CardTitle>Gerenciamento</CardTitle>
                 <CardDescription>Ferramentas administrativas</CardDescription>
               </CardHeader>
-              <CardContent className="p-0">
-                <div className="space-y-1 px-4 pb-4">
-                  <Button variant="ghost" className="w-full justify-start" onClick={() => {}}>
-                    <VersionHistory documentId="doc-001" />
+              <CardContent>
+                <div className="space-y-2">
+                  <Button 
+                    variant="ghost" 
+                    className="w-full justify-start" 
+                    onClick={() => setActiveManagementTool(activeManagementTool === "version-history" ? null : "version-history")}
+                  >
+                    <FileText className="h-4 w-4 mr-2" />
+                    Histórico de Versões
                   </Button>
-                  <Button variant="ghost" className="w-full justify-start" onClick={() => {}}>
+                  <Button 
+                    variant="ghost" 
+                    className="w-full justify-start"
+                    onClick={() => setActiveManagementTool(activeManagementTool === "access-control" ? null : "access-control")}
+                  >
                     <FileCog className="h-4 w-4 mr-2" />
                     Controle de Acesso
                   </Button>
-                  <Button variant="ghost" className="w-full justify-start" onClick={() => {}}>
+                  <Button 
+                    variant="ghost" 
+                    className="w-full justify-start"
+                    onClick={() => setActiveManagementTool(activeManagementTool === "analytics" ? null : "analytics")}
+                  >
                     <BarChart3 className="h-4 w-4 mr-2" />
                     Análise de Documentos
                   </Button>
                 </div>
               </CardContent>
             </Card>
+            
+            {activeManagementTool && (
+              <Card className="mt-4">
+                <CardHeader>
+                  <CardTitle>
+                    {activeManagementTool === "version-history" && "Histórico de Versões"}
+                    {activeManagementTool === "access-control" && "Controle de Acesso"}
+                    {activeManagementTool === "analytics" && "Análise de Documentos"}
+                  </CardTitle>
+                  <CardDescription>
+                    {activeManagementTool === "version-history" && "Histórico de alterações do documento"}
+                    {activeManagementTool === "access-control" && "Gerencie permissões de acesso"}
+                    {activeManagementTool === "analytics" && "Estatísticas de uso dos documentos"}
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  {renderManagementTool()}
+                </CardContent>
+              </Card>
+            )}
           </div>
 
           <div className="lg:col-span-3">
