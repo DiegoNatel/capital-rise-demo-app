@@ -1,3 +1,4 @@
+
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -22,6 +23,7 @@ import CompanyProfile from "@/pages/investor/CompanyProfile";
 import NotFound from "@/pages/NotFound";
 import InvestorCommunication from "@/pages/investor/InvestorCommunication";
 import DocumentRepository from "@/pages/investor/DocumentRepository";
+import CompanyDocumentRepository from "@/pages/company/documents/CompanyDocumentRepository";
 
 const queryClient = new QueryClient();
 
@@ -81,7 +83,7 @@ const AppRoutes = () => {
       } />
       <Route path="/company/documents" element={
         <ProtectedRoute>
-          <DocumentRepository />
+          <CompanyDocumentRepository />
         </ProtectedRoute>
       } />
       <Route path="/investor" element={
@@ -97,6 +99,11 @@ const AppRoutes = () => {
       <Route path="/investor/communication" element={
         <ProtectedRoute>
           <InvestorCommunication />
+        </ProtectedRoute>
+      } />
+      <Route path="/investor/documents" element={
+        <ProtectedRoute>
+          <DocumentRepository />
         </ProtectedRoute>
       } />
       <Route path="/marketplace" element={
