@@ -1,4 +1,3 @@
-
 import { Link } from "react-router-dom";
 import MainLayout from "@/components/layout/MainLayout";
 import { Button } from "@/components/ui/button";
@@ -16,7 +15,7 @@ import {
   TabsList,
   TabsTrigger,
 } from "@/components/ui/tabs";
-import { ChevronRight, FilePlus, BarChart3, Users, DollarSign, CheckCircle, FileText, Briefcase, Calendar, TrendingUp } from "lucide-react";
+import { ChevronRight, CheckCircle, Users, DollarSign, TrendingUp, Briefcase, Calendar } from "lucide-react";
 import { Progress } from "@/components/ui/progress";
 import { companies } from "@/data/companies";
 import { offersWithCompanyData } from "@/data/offers";
@@ -70,12 +69,6 @@ const CompanyPortal = () => {
           </div>
           
           <div className="flex flex-col gap-3 min-w-[200px]">
-            <Button className="w-full" asChild>
-              <Link to="/company/create-offer">
-                <FilePlus className="mr-2 h-4 w-4" />
-                Nova Oferta
-              </Link>
-            </Button>
             <Button variant="outline" className="w-full">
               <FileText className="mr-2 h-4 w-4" />
               Editar Perfil
