@@ -141,14 +141,18 @@ const MainIndicators = ({ companyData }: MainIndicatorsProps) => {
                   return (
                     <div className="bg-white p-3 border border-slate-200 rounded-md shadow-md">
                       <p className="font-semibold">{label}</p>
-                      {payload.map((entry, index) => (
-                        <p key={index} style={{ color: entry.color }}>
-                          {entry.name === "lucro" ? "Lucro: " : "Receitas: "}
-                          <span className="font-medium">
-                            {entry.value < 0 ? "-" : ""}US$ {Math.abs(entry.value).toLocaleString()}
-                          </span>
-                        </p>
-                      ))}
+                      {payload.map((entry, index) => {
+                        // Ensure entry.value is treated as a number
+                        const value = typeof entry.value === 'string' ? parseFloat(entry.value) : Number(entry.value);
+                        return (
+                          <p key={index} style={{ color: entry.color }}>
+                            {entry.name === "lucro" ? "Lucro: " : "Receitas: "}
+                            <span className="font-medium">
+                              {value < 0 ? "-" : ""}US$ {Math.abs(value).toLocaleString()}
+                            </span>
+                          </p>
+                        );
+                      })}
                     </div>
                   );
                 }
@@ -280,3 +284,4 @@ const MainIndicators = ({ companyData }: MainIndicatorsProps) => {
 };
 
 export default MainIndicators;
+
