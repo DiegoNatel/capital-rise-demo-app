@@ -1,4 +1,3 @@
-
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -16,6 +15,7 @@ import Marketplace from "@/pages/marketplace/Marketplace";
 import Login from "@/pages/auth/Login";
 import Register from "@/pages/auth/Register";
 import CreateOffer from "@/pages/company/CreateOffer";
+import EditProfile from "@/pages/company/EditProfile";
 import OfferDetails from "@/pages/investor/OfferDetails";
 import Portfolio from "@/pages/investor/Portfolio";
 import CompanyProfile from "@/pages/investor/CompanyProfile";
@@ -72,6 +72,11 @@ const AppRoutes = () => {
       <Route path="/company/create-offer" element={
         <ProtectedRoute>
           <CreateOffer />
+        </ProtectedRoute>
+      } />
+      <Route path="/company/edit-profile" element={
+        <ProtectedRoute>
+          <EditProfile />
         </ProtectedRoute>
       } />
       <Route path="/company/documents" element={

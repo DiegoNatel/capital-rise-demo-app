@@ -16,7 +16,7 @@ import {
   TabsList,
   TabsTrigger,
 } from "@/components/ui/tabs";
-import { ChevronRight, CheckCircle, Users, DollarSign, TrendingUp, Briefcase, Calendar, FileText, FilePlus, BarChart3 } from "lucide-react";
+import { ChevronRight, CheckCircle, Users, DollarSign, TrendingUp, Briefcase, Calendar, FileText, FilePlus, BarChart3, Pencil } from "lucide-react";
 import { Progress } from "@/components/ui/progress";
 import { companies } from "@/data/companies";
 import { offersWithCompanyData } from "@/data/offers";
@@ -76,9 +76,11 @@ const CompanyPortal = () => {
                 Ver Documentos
               </Link>
             </Button>
-            <Button variant="outline" className="w-full">
-              <FileText className="mr-2 h-4 w-4" />
-              Editar Perfil
+            <Button variant="outline" className="w-full" asChild>
+              <Link to="/company/edit-profile">
+                <Pencil className="mr-2 h-4 w-4" />
+                Editar Perfil
+              </Link>
             </Button>
           </div>
         </div>
