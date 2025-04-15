@@ -50,9 +50,6 @@ const DesktopNav = ({ isAuthenticated, closeMenu }: DesktopNavProps) => {
                 <DropdownMenuItem asChild>
                   <Link to="/company/create-offer" className="w-full" onClick={closeMenu}>Criar Oferta</Link>
                 </DropdownMenuItem>
-                <DropdownMenuItem asChild>
-                  <Link to="/company/documents" className="w-full" onClick={closeMenu}>Repositório de Documentos</Link>
-                </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
           </div>
