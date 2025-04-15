@@ -72,7 +72,7 @@ const IncomeStatement = ({ companyData }: IncomeStatementProps) => {
             </TableRow>
             <TableRow>
               <TableCell className="font-medium">Despesas Administrativas</TableCell>
-              {years.map((_, index) => (
+              {financialYears.map((_, index) => (
                 <TableCell key={index} className="text-right">
                   R$ {(companyData.financials.costs[index] * 0.3).toLocaleString()}
                 </TableCell>
@@ -80,7 +80,7 @@ const IncomeStatement = ({ companyData }: IncomeStatementProps) => {
             </TableRow>
             <TableRow>
               <TableCell className="font-medium">EBITDA</TableCell>
-              {years.map((_, index) => (
+              {financialYears.map((_, index) => (
                 <TableCell key={index} className="text-right">
                   R$ {(companyData.financials.revenue[index] - companyData.financials.costs[index] - (companyData.financials.costs[index] * 0.3)).toLocaleString()}
                 </TableCell>
