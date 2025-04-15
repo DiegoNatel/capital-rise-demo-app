@@ -17,6 +17,9 @@ interface FinancialsTabProps {
 }
 
 const FinancialsTab = ({ companyData }: FinancialsTabProps) => {
+  // Check if we have the minimal financial data required
+  const hasFinancialData = companyData && companyData.financials;
+
   return (
     <div className="space-y-8 mt-6">
       <Card>
@@ -27,11 +30,19 @@ const FinancialsTab = ({ companyData }: FinancialsTabProps) => {
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-8">
-          {/* Financial Statement Tabs */}
-          <FinancialStatementTabs companyData={companyData} />
-          
-          {/* Financial Indicators */}
-          <FinancialIndicators companyData={companyData} />
+          {hasFinancialData ? (
+            <>
+              {/* Financial Statement Tabs */}
+              <FinancialStatementTabs companyData={companyData} />
+              
+              {/* Financial Indicators */}
+              <FinancialIndicators companyData={companyData} />
+            </>
+          ) : (
+            <div className="py-8 text-center">
+              <p className="text-slate-500 mb-4">Não há dados financeiros disponíveis para esta empresa.</p>
+            </div>
+          )}
         </CardContent>
         <CardFooter>
           <div className="w-full flex justify-end space-x-4">

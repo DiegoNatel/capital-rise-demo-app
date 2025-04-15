@@ -13,6 +13,15 @@ interface BalanceSheetProps {
 }
 
 const BalanceSheet = ({ companyData }: BalanceSheetProps) => {
+  // Check if financials data exists
+  if (!companyData?.financials?.revenue) {
+    return (
+      <div className="p-4 text-center">
+        <p className="text-slate-500">Dados do balanço não disponíveis.</p>
+      </div>
+    );
+  }
+  
   // Use the current year for the balance sheet
   const currentYear = new Date().getFullYear();
   

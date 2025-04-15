@@ -6,6 +6,21 @@ interface FinancialIndicatorsProps {
 }
 
 const FinancialIndicators = ({ companyData }: FinancialIndicatorsProps) => {
+  // Check if financials data exists
+  if (!companyData?.financials?.revenue || !companyData?.financials?.profit) {
+    return (
+      <div className="p-4 text-center">
+        <p className="text-slate-500">Indicadores financeiros não disponíveis.</p>
+      </div>
+    );
+  }
+
+  // Calculate margin - safely
+  const lastProfitIndex = companyData.financials.profit.length - 1;
+  const lastRevenueIndex = companyData.financials.revenue.length - 1;
+  const marginPercent = lastProfitIndex >= 0 && lastRevenueIndex >= 0 ? 
+    Math.round((companyData.financials.profit[lastProfitIndex] / companyData.financials.revenue[lastRevenueIndex]) * 100) : 0;
+
   return (
     <div>
       <h3 className="font-medium text-lg mb-4">Indicadores Financeiros</h3>
@@ -16,7 +31,7 @@ const FinancialIndicators = ({ companyData }: FinancialIndicatorsProps) => {
             <h4 className="font-medium">Margem Líquida</h4>
           </div>
           <p className="text-2xl font-semibold">
-            {Math.round((companyData.financials.profit[companyData.financials.profit.length - 1] / companyData.financials.revenue[companyData.financials.revenue.length - 1]) * 100)}%
+            {marginPercent}%
           </p>
           <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">
             Último ano fiscal
@@ -29,7 +44,7 @@ const FinancialIndicators = ({ companyData }: FinancialIndicatorsProps) => {
             <h4 className="font-medium">Taxa de Crescimento</h4>
           </div>
           <p className="text-2xl font-semibold">
-            {companyData.growth}%
+            {companyData.growth || '0'}%
           </p>
           <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">
             CAGR 3 anos

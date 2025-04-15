@@ -13,9 +13,18 @@ interface IncomeStatementProps {
 }
 
 const IncomeStatement = ({ companyData }: IncomeStatementProps) => {
+  // Check if financials data exists
+  if (!companyData?.financials?.revenue || !companyData?.financials?.costs || !companyData?.financials?.profit) {
+    return (
+      <div className="p-4 text-center">
+        <p className="text-slate-500">Dados financeiros não disponíveis.</p>
+      </div>
+    );
+  }
+
   // Years for the financial data (last 3 years)
   const currentYear = new Date().getFullYear();
-  const years = [currentYear - 2, currentYear - 1, currentYear];
+  const years = companyData.financials.years || [currentYear - 2, currentYear - 1, currentYear];
   
   return (
     <div>
@@ -25,8 +34,8 @@ const IncomeStatement = ({ companyData }: IncomeStatementProps) => {
           <TableHeader>
             <TableRow className="bg-slate-50 dark:bg-slate-800">
               <TableHead>Item</TableHead>
-              {years.map(year => (
-                <TableHead key={year} className="text-right">{year}</TableHead>
+              {years.map((year, index) => (
+                <TableHead key={index} className="text-right">{year}</TableHead>
               ))}
             </TableRow>
           </TableHeader>

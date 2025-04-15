@@ -13,9 +13,18 @@ interface CashFlowStatementProps {
 }
 
 const CashFlowStatement = ({ companyData }: CashFlowStatementProps) => {
+  // Check if financials data exists
+  if (!companyData?.financials?.profit || !companyData?.financials?.revenue) {
+    return (
+      <div className="p-4 text-center">
+        <p className="text-slate-500">Dados de fluxo de caixa não disponíveis.</p>
+      </div>
+    );
+  }
+  
   // Years for the financial data (last 3 years)
   const currentYear = new Date().getFullYear();
-  const years = [currentYear - 2, currentYear - 1, currentYear];
+  const years = companyData.financials.years || [currentYear - 2, currentYear - 1, currentYear];
   
   // Calculate cash flow items based on existing data
   const operatingCashFlow = companyData.financials.profit.map(profit => profit * 1.2);
