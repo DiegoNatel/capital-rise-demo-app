@@ -2,7 +2,7 @@
 import { useState } from "react";
 import MainLayout from "@/components/layout/MainLayout";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, Plus, FileText, Filter } from "lucide-react";
+import { ArrowLeft, Plus, FileText, Filter, Shield, Users } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { 
   Card, 
@@ -21,10 +21,12 @@ import { investorDocuments } from "@/data/documents";
 import { InvestorDocument } from "@/types/documents";
 import DocumentUploadForm from "./DocumentUploadForm";
 import CompanyDocumentTable from "./CompanyDocumentTable";
+import AccessControl from "../../investor/components/documents/AccessControl";
 
 const CompanyDocumentRepository = () => {
   const navigate = useNavigate();
   const [showUploadForm, setShowUploadForm] = useState(false);
+  const [showAccessControl, setShowAccessControl] = useState(false);
   const [documents, setDocuments] = useState<InvestorDocument[]>(
     // Filter to only show the current company's documents
     // In a real app, this would be based on the logged-in company
@@ -69,20 +71,59 @@ const CompanyDocumentRepository = () => {
                 Aqui você pode gerenciar todos os documentos compartilhados com investidores.
               </p>
             </div>
-            <Button
-              onClick={() => setShowUploadForm(!showUploadForm)}
-              className="flex items-center"
-            >
-              {showUploadForm ? (
-                <>Cancelar</>
-              ) : (
-                <>
-                  <Plus className="mr-2 h-4 w-4" />
-                  Adicionar Documento
-                </>
-              )}
-            </Button>
+            <div className="flex space-x-2">
+              <Button
+                variant="outline"
+                onClick={() => {
+                  setShowAccessControl(!showAccessControl);
+                  if (showUploadForm) setShowUploadForm(false);
+                }}
+                className="flex items-center"
+              >
+                {showAccessControl ? (
+                  <>Ocultar Controle de Acesso</>
+                ) : (
+                  <>
+                    <Shield className="mr-2 h-4 w-4" />
+                    Controle de Acesso
+                  </>
+                )}
+              </Button>
+              <Button
+                onClick={() => {
+                  setShowUploadForm(!showUploadForm);
+                  if (showAccessControl) setShowAccessControl(false);
+                }}
+                className="flex items-center"
+              >
+                {showUploadForm ? (
+                  <>Cancelar</>
+                ) : (
+                  <>
+                    <Plus className="mr-2 h-4 w-4" />
+                    Adicionar Documento
+                  </>
+                )}
+              </Button>
+            </div>
           </div>
+
+          {showAccessControl && (
+            <Card>
+              <CardHeader className="pb-3">
+                <CardTitle className="flex items-center">
+                  <Users className="mr-2 h-5 w-5 text-blue-600" />
+                  Controle de Acesso a Documentos
+                </CardTitle>
+                <CardDescription>
+                  Defina quais tipos de investidores podem acessar os documentos da sua empresa
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <AccessControl />
+              </CardContent>
+            </Card>
+          )}
 
           {showUploadForm && (
             <DocumentUploadForm onDocumentUploaded={handleDocumentUploaded} />
