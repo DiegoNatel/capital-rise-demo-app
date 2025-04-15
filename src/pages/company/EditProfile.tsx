@@ -27,8 +27,11 @@ import {
   Globe,
   User,
   Save,
+  Lock,
+  Info,
 } from "lucide-react";
 import { companies } from "@/data/companies";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 
 // Use the first company as example data (in a real app, this would be fetched based on the logged in user)
 const companyData = { ...companies[0] };
@@ -89,6 +92,23 @@ const EditProfile = () => {
     navigate("/company");
   };
 
+  // Helper component for locked fields
+  const LockedFieldTooltip = ({ children, message }: { children: React.ReactNode, message: string }) => (
+    <TooltipProvider>
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <div className="flex items-center">
+            {children}
+            <Lock className="ml-2 h-4 w-4 text-slate-400" />
+          </div>
+        </TooltipTrigger>
+        <TooltipContent>
+          <p className="max-w-xs">{message}</p>
+        </TooltipContent>
+      </Tooltip>
+    </TooltipProvider>
+  );
+
   return (
     <MainLayout>
       <div className="container py-8">
@@ -128,22 +148,28 @@ const EditProfile = () => {
             <CardContent className="space-y-6">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="space-y-2">
-                  <Label htmlFor="name">Nome da Empresa</Label>
+                  <LockedFieldTooltip message="O nome da empresa não pode ser alterado pois está associado a documentos legais e registros oficiais.">
+                    <Label htmlFor="name">Nome da Empresa</Label>
+                  </LockedFieldTooltip>
                   <Input 
                     id="name" 
                     name="name" 
                     value={formData.name} 
-                    onChange={handleInputChange} 
+                    readOnly
+                    className="bg-slate-100"
                   />
                 </div>
                 
                 <div className="space-y-2">
-                  <Label htmlFor="industry">Indústria / Setor</Label>
+                  <LockedFieldTooltip message="O setor da empresa não pode ser alterado pois está associado a classificações regulatórias.">
+                    <Label htmlFor="industry">Indústria / Setor</Label>
+                  </LockedFieldTooltip>
                   <Input 
                     id="industry" 
                     name="industry" 
                     value={formData.industry} 
-                    onChange={handleInputChange} 
+                    readOnly
+                    className="bg-slate-100"
                   />
                 </div>
                 
@@ -162,16 +188,18 @@ const EditProfile = () => {
                 </div>
                 
                 <div className="space-y-2">
-                  <Label htmlFor="foundedYear">Ano de Fundação</Label>
+                  <LockedFieldTooltip message="O ano de fundação não pode ser alterado pois é um dado verificado durante o processo de listagem.">
+                    <Label htmlFor="foundedYear">Ano de Fundação</Label>
+                  </LockedFieldTooltip>
                   <div className="relative">
                     <Calendar className="absolute left-3 top-3 h-4 w-4 text-slate-400" />
                     <Input 
                       id="foundedYear" 
                       name="foundedYear" 
                       type="number" 
-                      className="pl-10" 
+                      className="pl-10 bg-slate-100" 
                       value={formData.foundedYear} 
-                      onChange={handleInputChange} 
+                      readOnly
                     />
                   </div>
                 </div>
@@ -206,7 +234,9 @@ const EditProfile = () => {
                 </div>
                 
                 <div className="space-y-2">
-                  <Label htmlFor="valuation">Valuation (R$ milhões)</Label>
+                  <LockedFieldTooltip message="A valuation é calculada automaticamente com base na última rodada de financiamento.">
+                    <Label htmlFor="valuation">Valuation (R$ milhões)</Label>
+                  </LockedFieldTooltip>
                   <div className="relative">
                     <DollarSign className="absolute left-3 top-3 h-4 w-4 text-slate-400" />
                     <Input 
@@ -214,26 +244,36 @@ const EditProfile = () => {
                       name="valuation" 
                       type="number" 
                       step="0.1" 
-                      className="pl-10" 
+                      className="pl-10 bg-slate-100" 
                       value={formData.valuation} 
-                      onChange={handleInputChange} 
+                      readOnly
                     />
                   </div>
+                  <p className="text-xs text-slate-500 italic mt-1">
+                    <Info className="inline h-3 w-3 mr-1" />
+                    Valor calculado automaticamente com base na última rodada de financiamento
+                  </p>
                 </div>
                 
                 <div className="space-y-2">
-                  <Label htmlFor="growth">Crescimento Anual (%)</Label>
+                  <LockedFieldTooltip message="O crescimento anual é calculado automaticamente com base na variação de valuation entre rodadas de financiamento.">
+                    <Label htmlFor="growth">Crescimento Anual (%)</Label>
+                  </LockedFieldTooltip>
                   <div className="relative">
                     <TrendingUp className="absolute left-3 top-3 h-4 w-4 text-slate-400" />
                     <Input 
                       id="growth" 
                       name="growth" 
                       type="number" 
-                      className="pl-10" 
+                      className="pl-10 bg-slate-100" 
                       value={formData.growth} 
-                      onChange={handleInputChange} 
+                      readOnly
                     />
                   </div>
+                  <p className="text-xs text-slate-500 italic mt-1">
+                    <Info className="inline h-3 w-3 mr-1" />
+                    Calculado automaticamente com base na variação de valuation entre rodadas
+                  </p>
                 </div>
               </div>
               
