@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import MainLayout from "@/components/layout/MainLayout";
 import { investorDocuments } from "@/data/documents";
@@ -8,14 +7,12 @@ import DocumentRepositoryHeader from "./components/DocumentRepositoryHeader";
 import RepositoryActions from "./components/RepositoryActions";
 import DocumentTabs from "./components/DocumentTabs";
 import DocumentWarning from "./components/DocumentWarning";
-import AccessControlCard from "./components/AccessControlCard";
+import AccessControlCard from "./components/access-control/AccessControlCard";
 
 const CompanyDocumentRepository = () => {
   const [showUploadForm, setShowUploadForm] = useState(false);
   const [showAccessControl, setShowAccessControl] = useState(false);
   const [documents, setDocuments] = useState<InvestorDocument[]>(
-    // Filter to only show the current company's documents
-    // In a real app, this would be based on the logged-in company
     investorDocuments.filter(doc => doc.company === "TechVision Brasil")
   );
 
