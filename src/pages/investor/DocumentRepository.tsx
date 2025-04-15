@@ -3,30 +3,14 @@ import { useState } from "react";
 import MainLayout from "@/components/layout/MainLayout";
 import { 
   Tabs, 
-  TabsContent, 
-  TabsList, 
-  TabsTrigger 
+  TabsContent
 } from "@/components/ui/tabs";
-import { 
-  FileText,
-  FileCog,
-  FileCheck,
-  Folder,
-  BarChart3,
-  Search,
-  Filter,
-  Eye,
-  Download,
-  Clock
-} from "lucide-react";
+import { Search, Filter } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import {
   Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
+  CardContent
 } from "@/components/ui/card";
 import {
   Select,
@@ -35,28 +19,12 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
-import { Skeleton } from "@/components/ui/skeleton";
-import DocumentList from "./components/documents/DocumentList";
-import VersionHistory from "./components/documents/VersionHistory";
-import AccessControl from "./components/documents/AccessControl";
-import DocumentAnalytics from "./components/documents/DocumentAnalytics";
+
 import { investorDocuments } from "@/data/documents";
+import ManagementSidebar from "./components/documents/ManagementSidebar";
+import DocumentTabs from "./components/documents/DocumentTabs";
+import DocumentTable from "./components/documents/DocumentTable";
+import ManagementContent from "./components/documents/ManagementContent";
 
 const DocumentRepository = () => {
   const [activeTab, setActiveTab] = useState("financial");
@@ -82,10 +50,14 @@ const DocumentRepository = () => {
     setActiveManagementTool(activeManagementTool === tool ? null : tool);
   };
 
-  // Selected document for detail viewing
-  const selectedDocument = selectedDocumentId 
-    ? investorDocuments.find(doc => doc.id === selectedDocumentId)
-    : null;
+  const handleTabChange = (tab: string) => {
+    setActiveTab(tab);
+  };
+
+  const handleHistoryClick = (documentId: string) => {
+    setSelectedDocumentId(documentId);
+    setActiveManagementTool("version-history");
+  };
     
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
@@ -94,19 +66,6 @@ const DocumentRepository = () => {
       month: "2-digit",
       year: "numeric",
     }).format(date);
-  };
-
-  const getDocumentIcon = (docType: string) => {
-    switch (docType) {
-      case "financial":
-        return <FileText className="h-5 w-5 text-blue-500" />;
-      case "legal":
-        return <FileCheck className="h-5 w-5 text-green-500" />;
-      case "presentations":
-        return <Folder className="h-5 w-5 text-yellow-500" />;
-      default:
-        return <FileText className="h-5 w-5 text-slate-500" />;
-    }
   };
 
   return (
@@ -163,316 +122,52 @@ const DocumentRepository = () => {
                 className="w-full"
               >
                 <div className="flex flex-col md:flex-row border-b">
-                  <div className="p-4 md:w-64 md:border-r">
-                    <h3 className="text-lg font-semibold mb-2">Gerenciamento</h3>
-                    <p className="text-sm text-muted-foreground mb-4">Ferramentas administrativas</p>
-                    
-                    <div className="space-y-1">
-                      <Button 
-                        variant={activeManagementTool === "version-history" ? "secondary" : "ghost"}
-                        className="w-full justify-start"
-                        onClick={() => handleToolSelect("version-history")}
-                      >
-                        <Clock className="h-4 w-4 mr-2" />
-                        Histórico de Versões
-                      </Button>
-                      <Button 
-                        variant={activeManagementTool === "access-control" ? "secondary" : "ghost"}
-                        className="w-full justify-start"
-                        onClick={() => handleToolSelect("access-control")}
-                      >
-                        <FileCog className="h-4 w-4 mr-2" />
-                        Controle de Acesso
-                      </Button>
-                      <Button 
-                        variant={activeManagementTool === "analytics" ? "secondary" : "ghost"}
-                        className="w-full justify-start"
-                        onClick={() => handleToolSelect("analytics")}
-                      >
-                        <BarChart3 className="h-4 w-4 mr-2" />
-                        Análise de Documentos
-                      </Button>
-                    </div>
-                  </div>
+                  <ManagementSidebar 
+                    activeManagementTool={activeManagementTool} 
+                    onToolSelect={handleToolSelect} 
+                  />
                   
                   <div className="flex-1">
-                    <TabsList className="w-full justify-start rounded-none border-b bg-transparent p-0">
-                      <div className="flex overflow-x-auto">
-                        <TabsTrigger 
-                          value="financial" 
-                          className="flex items-center data-[state=active]:border-b-2 data-[state=active]:border-primary rounded-none border-b-2 border-transparent px-4 py-3 data-[state=active]:shadow-none"
-                        >
-                          <FileText className="h-4 w-4 mr-2" />
-                          <span>Financeiros</span>
-                        </TabsTrigger>
-                        <TabsTrigger 
-                          value="legal" 
-                          className="flex items-center data-[state=active]:border-b-2 data-[state=active]:border-primary rounded-none border-b-2 border-transparent px-4 py-3 data-[state=active]:shadow-none"
-                        >
-                          <FileCheck className="h-4 w-4 mr-2" />
-                          <span>Legais</span>
-                        </TabsTrigger>
-                        <TabsTrigger 
-                          value="presentations" 
-                          className="flex items-center data-[state=active]:border-b-2 data-[state=active]:border-primary rounded-none border-b-2 border-transparent px-4 py-3 data-[state=active]:shadow-none"
-                        >
-                          <Folder className="h-4 w-4 mr-2" />
-                          <span>Apresentações</span>
-                        </TabsTrigger>
-                        <TabsTrigger 
-                          value="others" 
-                          className="flex items-center data-[state=active]:border-b-2 data-[state=active]:border-primary rounded-none border-b-2 border-transparent px-4 py-3 data-[state=active]:shadow-none"
-                        >
-                          <FileCog className="h-4 w-4 mr-2" />
-                          <span>Outros</span>
-                        </TabsTrigger>
-                      </div>
-                    </TabsList>
+                    <DocumentTabs activeTab={activeTab} onTabChange={handleTabChange} />
                     
                     <div className="p-4">
-                      {activeManagementTool ? (
-                        <div className="mb-6">
-                          <h3 className="text-xl font-semibold mb-2">
-                            {activeManagementTool === "version-history" && "Histórico de Versões"}
-                            {activeManagementTool === "access-control" && "Controle de Acesso"}
-                            {activeManagementTool === "analytics" && "Análise de Documentos"}
-                          </h3>
-                          <div className="mb-4">
-                            {activeManagementTool === "version-history" && (
-                              <VersionHistory documentId={selectedDocumentId || "doc-001"} />
-                            )}
-                            {activeManagementTool === "access-control" && (
-                              <AccessControl />
-                            )}
-                            {activeManagementTool === "analytics" && (
-                              <DocumentAnalytics />
-                            )}
-                          </div>
-                        </div>
-                      ) : (
+                      <ManagementContent 
+                        activeManagementTool={activeManagementTool} 
+                        selectedDocumentId={selectedDocumentId} 
+                      />
+
+                      {!activeManagementTool && (
                         <>
                           <TabsContent value="financial" className="mt-0">
-                            <Table>
-                              <TableHeader>
-                                <TableRow>
-                                  <TableHead>Documento</TableHead>
-                                  <TableHead>Empresa</TableHead>
-                                  <TableHead>Data de Publicação</TableHead>
-                                  <TableHead>Versão</TableHead>
-                                  <TableHead className="text-right">Ações</TableHead>
-                                </TableRow>
-                              </TableHeader>
-                              <TableBody>
-                                {filteredDocuments.map((doc) => (
-                                  <TableRow key={doc.id} className="cursor-pointer hover:bg-muted/80">
-                                    <TableCell className="font-medium flex items-center gap-2">
-                                      {getDocumentIcon(doc.type)}
-                                      {doc.title}
-                                    </TableCell>
-                                    <TableCell>{doc.company}</TableCell>
-                                    <TableCell>{formatDate(doc.publishedAt)}</TableCell>
-                                    <TableCell>v{doc.version}</TableCell>
-                                    <TableCell className="text-right">
-                                      <div className="flex justify-end gap-2">
-                                        <Button 
-                                          variant="outline" 
-                                          size="sm"
-                                          onClick={() => {
-                                            setSelectedDocumentId(doc.id);
-                                            handleToolSelect("version-history");
-                                          }}
-                                        >
-                                          <Clock className="h-3.5 w-3.5 mr-1" />
-                                          Histórico
-                                        </Button>
-                                        
-                                        <Button
-                                          variant="outline"
-                                          size="sm"
-                                          onClick={() => window.open(doc.url, "_blank")}
-                                        >
-                                          <Eye className="h-3.5 w-3.5 mr-1" />
-                                          Visualizar
-                                        </Button>
-                                        
-                                        <Button variant="default" size="sm">
-                                          <Download className="h-3.5 w-3.5 mr-1" />
-                                          Download
-                                        </Button>
-                                      </div>
-                                    </TableCell>
-                                  </TableRow>
-                                ))}
-                              </TableBody>
-                            </Table>
+                            <DocumentTable 
+                              documents={filteredDocuments} 
+                              formatDate={formatDate} 
+                              onHistoryClick={handleHistoryClick} 
+                            />
                           </TabsContent>
 
                           <TabsContent value="legal" className="mt-0">
-                            <Table>
-                              <TableHeader>
-                                <TableRow>
-                                  <TableHead>Documento</TableHead>
-                                  <TableHead>Empresa</TableHead>
-                                  <TableHead>Data de Publicação</TableHead>
-                                  <TableHead>Versão</TableHead>
-                                  <TableHead className="text-right">Ações</TableHead>
-                                </TableRow>
-                              </TableHeader>
-                              <TableBody>
-                                {filteredDocuments.map((doc) => (
-                                  <TableRow key={doc.id} className="cursor-pointer hover:bg-muted/80">
-                                    <TableCell className="font-medium flex items-center gap-2">
-                                      {getDocumentIcon(doc.type)}
-                                      {doc.title}
-                                    </TableCell>
-                                    <TableCell>{doc.company}</TableCell>
-                                    <TableCell>{formatDate(doc.publishedAt)}</TableCell>
-                                    <TableCell>v{doc.version}</TableCell>
-                                    <TableCell className="text-right">
-                                      <div className="flex justify-end gap-2">
-                                        <Button 
-                                          variant="outline" 
-                                          size="sm"
-                                          onClick={() => {
-                                            setSelectedDocumentId(doc.id);
-                                            handleToolSelect("version-history");
-                                          }}
-                                        >
-                                          <Clock className="h-3.5 w-3.5 mr-1" />
-                                          Histórico
-                                        </Button>
-                                        
-                                        <Button
-                                          variant="outline"
-                                          size="sm"
-                                          onClick={() => window.open(doc.url, "_blank")}
-                                        >
-                                          <Eye className="h-3.5 w-3.5 mr-1" />
-                                          Visualizar
-                                        </Button>
-                                        
-                                        <Button variant="default" size="sm">
-                                          <Download className="h-3.5 w-3.5 mr-1" />
-                                          Download
-                                        </Button>
-                                      </div>
-                                    </TableCell>
-                                  </TableRow>
-                                ))}
-                              </TableBody>
-                            </Table>
+                            <DocumentTable 
+                              documents={filteredDocuments} 
+                              formatDate={formatDate} 
+                              onHistoryClick={handleHistoryClick} 
+                            />
                           </TabsContent>
 
                           <TabsContent value="presentations" className="mt-0">
-                            <Table>
-                              <TableHeader>
-                                <TableRow>
-                                  <TableHead>Documento</TableHead>
-                                  <TableHead>Empresa</TableHead>
-                                  <TableHead>Data de Publicação</TableHead>
-                                  <TableHead>Versão</TableHead>
-                                  <TableHead className="text-right">Ações</TableHead>
-                                </TableRow>
-                              </TableHeader>
-                              <TableBody>
-                                {filteredDocuments.map((doc) => (
-                                  <TableRow key={doc.id} className="cursor-pointer hover:bg-muted/80">
-                                    <TableCell className="font-medium flex items-center gap-2">
-                                      {getDocumentIcon(doc.type)}
-                                      {doc.title}
-                                    </TableCell>
-                                    <TableCell>{doc.company}</TableCell>
-                                    <TableCell>{formatDate(doc.publishedAt)}</TableCell>
-                                    <TableCell>v{doc.version}</TableCell>
-                                    <TableCell className="text-right">
-                                      <div className="flex justify-end gap-2">
-                                        <Button 
-                                          variant="outline" 
-                                          size="sm"
-                                          onClick={() => {
-                                            setSelectedDocumentId(doc.id);
-                                            handleToolSelect("version-history");
-                                          }}
-                                        >
-                                          <Clock className="h-3.5 w-3.5 mr-1" />
-                                          Histórico
-                                        </Button>
-                                        
-                                        <Button
-                                          variant="outline"
-                                          size="sm"
-                                          onClick={() => window.open(doc.url, "_blank")}
-                                        >
-                                          <Eye className="h-3.5 w-3.5 mr-1" />
-                                          Visualizar
-                                        </Button>
-                                        
-                                        <Button variant="default" size="sm">
-                                          <Download className="h-3.5 w-3.5 mr-1" />
-                                          Download
-                                        </Button>
-                                      </div>
-                                    </TableCell>
-                                  </TableRow>
-                                ))}
-                              </TableBody>
-                            </Table>
+                            <DocumentTable 
+                              documents={filteredDocuments} 
+                              formatDate={formatDate} 
+                              onHistoryClick={handleHistoryClick} 
+                            />
                           </TabsContent>
                           
                           <TabsContent value="others" className="mt-0">
-                            <Table>
-                              <TableHeader>
-                                <TableRow>
-                                  <TableHead>Documento</TableHead>
-                                  <TableHead>Empresa</TableHead>
-                                  <TableHead>Data de Publicação</TableHead>
-                                  <TableHead>Versão</TableHead>
-                                  <TableHead className="text-right">Ações</TableHead>
-                                </TableRow>
-                              </TableHeader>
-                              <TableBody>
-                                {filteredDocuments.map((doc) => (
-                                  <TableRow key={doc.id} className="cursor-pointer hover:bg-muted/80">
-                                    <TableCell className="font-medium flex items-center gap-2">
-                                      {getDocumentIcon(doc.type)}
-                                      {doc.title}
-                                    </TableCell>
-                                    <TableCell>{doc.company}</TableCell>
-                                    <TableCell>{formatDate(doc.publishedAt)}</TableCell>
-                                    <TableCell>v{doc.version}</TableCell>
-                                    <TableCell className="text-right">
-                                      <div className="flex justify-end gap-2">
-                                        <Button 
-                                          variant="outline" 
-                                          size="sm"
-                                          onClick={() => {
-                                            setSelectedDocumentId(doc.id);
-                                            handleToolSelect("version-history");
-                                          }}
-                                        >
-                                          <Clock className="h-3.5 w-3.5 mr-1" />
-                                          Histórico
-                                        </Button>
-                                        
-                                        <Button
-                                          variant="outline"
-                                          size="sm"
-                                          onClick={() => window.open(doc.url, "_blank")}
-                                        >
-                                          <Eye className="h-3.5 w-3.5 mr-1" />
-                                          Visualizar
-                                        </Button>
-                                        
-                                        <Button variant="default" size="sm">
-                                          <Download className="h-3.5 w-3.5 mr-1" />
-                                          Download
-                                        </Button>
-                                      </div>
-                                    </TableCell>
-                                  </TableRow>
-                                ))}
-                              </TableBody>
-                            </Table>
+                            <DocumentTable 
+                              documents={filteredDocuments} 
+                              formatDate={formatDate} 
+                              onHistoryClick={handleHistoryClick} 
+                            />
                           </TabsContent>
                         </>
                       )}
