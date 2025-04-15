@@ -63,6 +63,13 @@ const MobileNav = ({ isOpen, isAuthenticated, closeMenu, handleLogout }: MobileN
                   >
                     Criar Oferta
                   </Link>
+                  <Link
+                    to="/company/documents"
+                    className="block pl-6 pr-4 py-2 text-base font-medium text-slate-900 dark:text-slate-100 hover:bg-slate-100 dark:hover:bg-slate-800"
+                    onClick={closeMenu}
+                  >
+                    Repositório de Documentos
+                  </Link>
                 </AccordionContent>
               </AccordionItem>
               

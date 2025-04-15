@@ -74,6 +74,11 @@ const AppRoutes = () => {
           <CreateOffer />
         </ProtectedRoute>
       } />
+      <Route path="/company/documents" element={
+        <ProtectedRoute>
+          <DocumentRepository />
+        </ProtectedRoute>
+      } />
       <Route path="/investor" element={
         <ProtectedRoute>
           <InvestorPortal />
@@ -87,11 +92,6 @@ const AppRoutes = () => {
       <Route path="/investor/communication" element={
         <ProtectedRoute>
           <InvestorCommunication />
-        </ProtectedRoute>
-      } />
-      <Route path="/investor/documents" element={
-        <ProtectedRoute>
-          <DocumentRepository />
         </ProtectedRoute>
       } />
       <Route path="/marketplace" element={
