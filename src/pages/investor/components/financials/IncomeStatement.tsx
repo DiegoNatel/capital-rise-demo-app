@@ -13,19 +13,25 @@ interface IncomeStatementProps {
 }
 
 const IncomeStatement = ({ companyData }: IncomeStatementProps) => {
-  // Check if financials data exists
-  if (!companyData?.financials?.revenue || !companyData?.financials?.costs || !companyData?.financials?.profit) {
+  // Enhanced data validation
+  const hasFinancialData = 
+    companyData?.financials && 
+    Array.isArray(companyData.financials.revenue) && 
+    Array.isArray(companyData.financials.costs) && 
+    Array.isArray(companyData.financials.profit);
+
+  if (!hasFinancialData) {
     return (
       <div className="p-4 text-center">
-        <p className="text-slate-500">Dados financeiros não disponíveis.</p>
+        <p className="text-slate-500">Dados financeiros não disponíveis ou incompletos.</p>
       </div>
     );
   }
 
-  // Years for the financial data (last 3 years)
-  const currentYear = new Date().getFullYear();
-  const years = companyData.financials.years || [currentYear - 2, currentYear - 1, currentYear];
-  
+  // Ensure we have consistent data length
+  const financialYears = companyData.financials.years || 
+    Array.from({ length: companyData.financials.revenue.length }, (_, i) => new Date().getFullYear() - i);
+
   return (
     <div>
       <h3 className="font-medium text-lg mb-4">Demonstração de Resultados</h3>
@@ -34,7 +40,7 @@ const IncomeStatement = ({ companyData }: IncomeStatementProps) => {
           <TableHeader>
             <TableRow className="bg-slate-50 dark:bg-slate-800">
               <TableHead>Item</TableHead>
-              {years.map((year, index) => (
+              {financialYears.map((year, index) => (
                 <TableHead key={index} className="text-right">{year}</TableHead>
               ))}
             </TableRow>
