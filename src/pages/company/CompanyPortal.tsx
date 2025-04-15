@@ -15,7 +15,7 @@ import {
   TabsList,
   TabsTrigger,
 } from "@/components/ui/tabs";
-import { ChevronRight, CheckCircle, Users, DollarSign, TrendingUp, Briefcase, Calendar } from "lucide-react";
+import { ChevronRight, CheckCircle, Users, DollarSign, TrendingUp, Briefcase, Calendar, FileText, FilePlus, BarChart3 } from "lucide-react";
 import { Progress } from "@/components/ui/progress";
 import { companies } from "@/data/companies";
 import { offersWithCompanyData } from "@/data/offers";
