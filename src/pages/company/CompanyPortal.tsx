@@ -1,3 +1,4 @@
+
 import { Link } from "react-router-dom";
 import MainLayout from "@/components/layout/MainLayout";
 import { Button } from "@/components/ui/button";
@@ -69,6 +70,12 @@ const CompanyPortal = () => {
           </div>
           
           <div className="flex flex-col gap-3 min-w-[200px]">
+            <Button variant="outline" className="w-full" asChild>
+              <Link to="/company/documents">
+                <FileText className="mr-2 h-4 w-4" />
+                Ver Documentos
+              </Link>
+            </Button>
             <Button variant="outline" className="w-full">
               <FileText className="mr-2 h-4 w-4" />
               Editar Perfil
