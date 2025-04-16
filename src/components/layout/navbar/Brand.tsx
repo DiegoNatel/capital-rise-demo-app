@@ -1,5 +1,6 @@
 
 import { Link } from "react-router-dom";
+import { Compass } from "lucide-react";
 
 interface BrandProps {
   isAuthenticated: boolean;
@@ -16,11 +17,11 @@ const Brand = ({ isAuthenticated, closeMenu }: BrandProps) => {
       className="flex-shrink-0 flex items-center" 
       onClick={closeMenu}
     >
-      <div className="bg-gradient-to-r from-brand-blue-500 to-brand-green-500 p-1.5 rounded-md mr-2">
-        <span className="font-bold text-white text-lg">CR</span>
+      <div className="bg-gradient-to-r from-brand-blue-500 to-brand-green-500 p-1.5 rounded-md mr-2 flex items-center justify-center">
+        <Compass className="h-5 w-5 text-white" />
       </div>
       <span className="bg-gradient-to-r from-brand-blue-500 to-brand-green-500 bg-clip-text text-transparent font-bold text-xl">
-        CapitalRise
+        Kapta
       </span>
     </Link>
   );
